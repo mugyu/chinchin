@@ -9,7 +9,8 @@ class TestResult < Test::Unit::TestCase
   def setup
   end
 
-  def testScoreIsNotZero
+  # 目が2つ以上同じならば違う目がスコア
+  def testScoreIsNotConbo
     assert_equal 6, ChinChin::Result.new([1, 1, 6]).score
     assert_equal 5, ChinChin::Result.new([2, 2, 5]).score
     assert_equal 4, ChinChin::Result.new([4, 3, 3]).score
@@ -18,19 +19,23 @@ class TestResult < Test::Unit::TestCase
     assert_equal 1, ChinChin::Result.new([6, 1, 6]).score
   end
 
+  # 目がバラバラならばスコアは 0
   def testDisjointedPips
     assert_equal 0, ChinChin::Result.new([2, 3, 4]).score
   end
  
+  # 目が 1, 2, 3 ならばスコアは -1
   def testScoreOfHifumi
     assert ChinChin::Result.new([1, 2, 3]).score < 0
   end
 
+  # 目が 1, 2, 3 ならば役はヒフミ
   def testYakuOfHifumi
     assert_equal :HIFUMI, ChinChin::Result.new([1, 2, 3]).yaku
     assert_equal ChinChin::Result::HIFUMI, :HIFUMI
   end
 
+  # dicesプロパティはコンストラクタの引数そのもの
   def testDices
     pips = [1,2,3]
     assert_same  pips, ChinChin::Result.new(pips).dices
