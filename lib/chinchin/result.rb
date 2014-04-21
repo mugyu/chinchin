@@ -16,7 +16,7 @@ module ChinChin
 
     def score
       pips = @pips.sort
-      return -1 if yaku === HIFUMI
+      return -1 if yaku == HIFUMI
       return pips[2] if pips[0] == pips[1]
       return pips[0] if pips[1] == pips[2]
       0

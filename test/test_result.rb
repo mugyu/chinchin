@@ -26,7 +26,7 @@ class TestResult < Test::Unit::TestCase
  
   # 目が 1, 2, 3 ならばスコアは -1
   def testScoreOfHifumi
-    assert ChinChin::Result.new([1, 2, 3]).score < 0
+    assert_equal(-1,  ChinChin::Result.new([1, 2, 3]).score)
   end
 
   # 目が 1, 2, 3 ならば役はヒフミ
