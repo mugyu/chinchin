@@ -19,7 +19,16 @@ class TestResult < Test::Unit::TestCase
   end
 
   def testDisjointedPips
-    assert_equal 0, ChinChin::Result.new([1, 2, 3]).score
+    assert_equal 0, ChinChin::Result.new([2, 3, 4]).score
+  end
+ 
+  def testScoreOfHifumi
+    assert ChinChin::Result.new([1, 2, 3]).score < 0
+  end
+
+  def testYakuOfHifumi
+    assert_equal :HIFUMI, ChinChin::Result.new([1, 2, 3]).yaku
+    assert_equal ChinChin::Result::HIFUMI, :HIFUMI
   end
 
   def testDices
