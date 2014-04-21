@@ -34,6 +34,17 @@ class TestResult < Test::Unit::TestCase
     assert_equal :HIFUMI, ChinChin::Result.new([1, 2, 3]).yaku
     assert_equal ChinChin::Result::HIFUMI, :HIFUMI
   end
+ 
+  # 目が 4, 5, 6 ならばスコアは +10
+  def testScoreOfShigoro
+    assert_equal 10, ChinChin::Result.new([4, 5, 6]).score
+  end
+
+  # 目が 4, 5, 6 ならば役はシゴロ
+  def testYakuOfShiigaro
+    assert_equal :SHIGORO, ChinChin::Result.new([4, 5, 6]).yaku
+    assert_equal ChinChin::Result::SHIGORO, :SHIGORO
+  end
 
   # dicesプロパティはコンストラクタの引数そのもの
   def testDices
