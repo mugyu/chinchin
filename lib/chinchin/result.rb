@@ -5,6 +5,7 @@ module ChinChin
   class Result
     HIFUMI = :HIFUMI
     SHIGORO = :SHIGORO
+    ARASHI = :ARASHI
     NOTHING = :NOTHING
 
     def initialize(pips)
@@ -16,12 +17,16 @@ module ChinChin
     end
 
     def score
-      pips = @pips.sort
-      return -1 if yaku == HIFUMI
-      return 10 if yaku == SHIGORO
-      return pips[2] if pips[0] == pips[1]
-      return pips[0] if pips[1] == pips[2]
-      0
+      case yaku
+      when HIFUMI
+        -1
+      when SHIGORO
+        10
+      when ARASHI
+        10 + _score
+      else
+        _score
+      end
     end
 
     def yaku
@@ -30,8 +35,25 @@ module ChinChin
         HIFUMI
       when [4, 5, 6]
         SHIGORO
+      when [1, 1, 1], [2, 2, 2], [3, 3, 3],
+           [4, 4, 4], [5, 5, 5], [6, 6, 6]
+        ARASHI
       else
         NOTHING
+      end
+    end
+
+    private
+
+    def _score
+      pips = @pips.sort
+      case 
+      when pips[0] == pips[1]
+        pips[2]
+      when pips[1] == pips[2]
+        pips[0]
+      else
+        0
       end
     end
   end

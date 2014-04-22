@@ -46,6 +46,72 @@ class TestResult < Test::Unit::TestCase
     assert_equal ChinChin::Result::SHIGORO, :SHIGORO
   end
 
+  # 目が 1, 1, 1 ならばスコアは +11
+  def testScoreOfArashiWith111
+    assert_equal 11, ChinChin::Result.new([1, 1, 1]).score
+  end
+
+  # 目が 1, 1, 1 ならば役はアラシ
+  def testYakuOfArashiWith111
+    assert_equal :ARASHI, ChinChin::Result.new([1, 1, 1]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
+  # 目が 2, 2, 2 ならばスコアは +12
+  def testScoreOfArashiWith222
+    assert_equal 12, ChinChin::Result.new([2, 2, 2]).score
+  end
+
+  # 目が 2, 2, 2 ならば役はアラシ
+  def testYakuOfArashiWith222
+    assert_equal :ARASHI, ChinChin::Result.new([2, 2, 2]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
+  # 目が 3, 3, 3 ならばスコアは +13
+  def testScoreOfArashiWith333
+    assert_equal 13, ChinChin::Result.new([3, 3, 3]).score
+  end
+
+  # 目が 3, 3, 3 ならば役はアラシ
+  def testYakuOfArashiWith333
+    assert_equal :ARASHI, ChinChin::Result.new([3, 3, 3]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
+  # 目が 4, 4, 4 ならばスコアは +14
+  def testScoreOfArashiWith444
+    assert_equal 14, ChinChin::Result.new([4, 4, 4]).score
+  end
+
+  # 目が 4, 4, 4 ならば役はアラシ
+  def testYakuOfArashiWith444
+    assert_equal :ARASHI, ChinChin::Result.new([4, 4, 4]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
+  # 目が 5, 5, 5 ならばスコアは +15
+  def testScoreOfArashiWith555
+    assert_equal 15, ChinChin::Result.new([5, 5, 5]).score
+  end
+
+  # 目が 5, 5, 5 ならば役はアラシ
+  def testYakuOfArashiWith555
+    assert_equal :ARASHI, ChinChin::Result.new([5, 5, 5]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
+  # 目が 6, 6, 6 ならばスコアは +16
+  def testScoreOfArashiWith666
+    assert_equal 16, ChinChin::Result.new([6, 6, 6]).score
+  end
+
+  # 目が 6, 6, 6 ならば役はアラシ
+  def testYakuOfArashiWith666
+    assert_equal :ARASHI, ChinChin::Result.new([6, 6, 6]).yaku
+    assert_equal ChinChin::Result::ARASHI, :ARASHI
+  end
+
   # dicesプロパティはコンストラクタの引数そのもの
   def testDices
     pips = [1,2,3]
