@@ -41,7 +41,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 4, 5, 6 ならば役はシゴロ
-  def testYakuOfShiigaro
+  def testYakuOfShiigoro
     assert_equal :SHIGORO, ChinChin::Result.new([4, 5, 6]).yaku
     assert_equal ChinChin::Result::SHIGORO, :SHIGORO
   end
