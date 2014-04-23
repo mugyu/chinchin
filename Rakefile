@@ -16,5 +16,7 @@ end
 desc "make yard"
 YARD::Rake::YardocTask.new do |t|
   t.files = SOURCE_FILES
-  t.options = ['--debug', '--verbose'] if $trace
+  if Rake.application.options.trace
+    t.options = ['--debug', '--verbose']
+  end
 end
