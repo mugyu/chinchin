@@ -1,8 +1,6 @@
-#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
 require 'chinchin/dice'
-require 'chinchin/result'
 
 module ChinChin
 
