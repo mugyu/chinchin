@@ -18,6 +18,6 @@ class TestPlayer < Test::Unit::TestCase
   end
 
   def testThrow
-    assert_kind_of StabReslut, @player.thow
+    assert_kind_of StabReslut, @player.cast
   end
 end

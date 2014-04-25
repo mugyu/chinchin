@@ -11,15 +11,15 @@ class TestDice < Test::Unit::TestCase
   end
 
   def testThrow
-    assert_kind_of Integer, @dice.thow
+    assert_kind_of Integer, @dice.cast
   end
 
   def testThrowPhony
-    assert_equal 1, @dice.thow(0)
-    assert_equal 2, @dice.thow(1)
-    assert_equal 3, @dice.thow(2)
-    assert_equal 4, @dice.thow(3)
-    assert_equal 5, @dice.thow(4)
-    assert_equal 6, @dice.thow(5)
+    assert_equal 1, @dice.cast(0)
+    assert_equal 2, @dice.cast(1)
+    assert_equal 3, @dice.cast(2)
+    assert_equal 4, @dice.cast(3)
+    assert_equal 5, @dice.cast(4)
+    assert_equal 6, @dice.cast(5)
   end
 end

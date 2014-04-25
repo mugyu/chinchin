@@ -14,8 +14,8 @@ module ChinChin
     # newで受けれた結果クラスのインスタンスを返す
     #
     # @return newで受けれた結果クラスのインスタンス
-    def thow
-      @Reslut_klass.new(@dices.map{|dice| dice.thow})
+    def cast
+      @Reslut_klass.new(@dices.map{|dice| dice.cast})
     end
   end
 end

@@ -12,7 +12,7 @@ module ChinChin
     # @param phony イカサマ&テスト用
     # @return [Integer] 基本的には1から6までの整数をランダムに返す
     # @return phony が nil 以外の場合はそれを返す(イカサマ&テスト用)
-    def thow(phony = nil)
+    def cast(phony = nil)
       if phony
         @pips[phony]
       else
