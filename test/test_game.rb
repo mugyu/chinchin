@@ -4,11 +4,21 @@ require 'chinchin/game'
 
 class TestGame < Test::Unit::TestCase
 
+  # プレイヤ用スタブ
+  class StabPlayer
+    def cast
+      self
+    end
+  end
+
+  # プレイヤ以外用スタブ
+  class StabNotPlayer; end
+
   # 参加者が登録したとおりである
   def testPlayers
-    player1 = Object.new
-    player2 = Object.new
-    player3 = Object.new
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
 
     game = ChinChin::Game.new(player1, player2)
     assert_equal [player1, player2], game.players
@@ -20,9 +30,9 @@ class TestGame < Test::Unit::TestCase
 
   # 親(Banker)の設定と参照
   def testSetBanker
-    player1 = Object.new
-    player2 = Object.new
-    player3 = Object.new
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
 
     game = ChinChin::Game.new(player1, player2, player3)
     game.banker = player2
@@ -37,9 +47,9 @@ class TestGame < Test::Unit::TestCase
 
   # 親(Banker)が決まったら、その他の参加者が子の組(punters)になる
   def testPunters
-    player1 = Object.new
-    player2 = Object.new
-    player3 = Object.new
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
 
     game = ChinChin::Game.new(player1, player2, player3)
     game.banker = player2
@@ -53,9 +63,9 @@ class TestGame < Test::Unit::TestCase
 
   # ゲームに参加していないモノを親にする場合は例外が発生
   def testBankerHasNotJoinedGameError
-    player1 = Object.new
-    player2 = Object.new
-    player3 = Object.new
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
 
     game = ChinChin::Game.new(player1, player2)
 
