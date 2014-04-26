@@ -30,8 +30,8 @@ module ChinChin
     #   @param player 親にするプレイヤ
     #   @return 親プレイヤ
     #   @raise [NotJoinedGameError]
-    #          パラメータの player がゲームに参加していない場合は、
-    #          例外が発生する
+    #     パラメータの player がゲームに参加していない場合は、
+    #     例外が発生する
     attr_reader :banker
 
     # 子の組(Punters)
@@ -50,10 +50,7 @@ module ChinChin
     #
     # @see #banker
     def banker=(player)
-      unless players.include? player
-        raise NotJoinedGameError,
-          "banker has not joined game."
-      end
+      validate_banker(player)
       @punters = @players - [player]
       @banker = player
     end
@@ -84,6 +81,22 @@ module ChinChin
           "This is not player object. cast method is necessary."
       end
       player
+    end
+
+    # 親プレイヤの検証
+    #
+    # - ゲームに参加している事
+    #
+    # @param player プレイヤ
+    # @return プレイヤ
+    # @raise [NotJoinedGameError]
+    #   パラメータの player がゲームに参加していない場合は、
+    #   例外が発生する
+    def validate_banker(player)
+      unless players.include? player
+        raise NotJoinedGameError,
+          "banker has not joined game."
+      end
     end
   end
 end
