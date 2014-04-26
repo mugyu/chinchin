@@ -28,6 +28,23 @@ class TestGame < Test::Unit::TestCase
     assert_equal [player1, player2, player3], game.players
   end
 
+  # castメソッドを持たないモノを参加者させようとした場合、例外が発生
+  def testNotPlayerObjectError
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    notPlayer = StabNotPlayer.new
+
+    # exception class
+    assert_raise ChinChin::Game::NotPlayerError do
+      ChinChin::Game.new(player1, player2, notPlayer)
+    end
+
+    # exception message
+    assert_raise "This is not player object. cast method is necessary." do
+      ChinChin::Game.new(player1, player2, notPlayer)
+    end
+  end
+
   # 親(Banker)の設定と参照
   def testSetBanker
     player1 = StabPlayer.new

@@ -9,6 +9,10 @@ module ChinChin
     # 親を決定する際、親がゲームに参加していない場合に発生する
     class NotJoinedGameError < TypeError; end
 
+    # 例外クラス:
+    # プレイヤ以外のオブジェクト
+    class NotPlayerError < TypeError; end
+
     # プレイヤー(参加者)全員
     attr_reader :players
 
@@ -33,11 +37,13 @@ module ChinChin
     # 子の組(Punters)
     attr_reader :punters
 
-    # @param [Array] players
-    #   ゲームのプレイヤー(参加者)を配列、または複数のパラ
-    #   メータとして渡す。
+    # @overload initialize(players)
+    #   @param [Array<#cast>] players ゲーム参加者を配列で設定する
+    # @overload initialize(*players)
+    #   @param [#cast] *players 可変長引数に個々のプレイヤを設定する
+    # @raise [NotPlayerError] プレイヤ以外を参加者に登録すると例外が発生する
     def initialize(*players)
-      @players = players.flatten
+      @players = validate_players(players.flatten)
     end
 
     # 親を決定する
@@ -50,6 +56,34 @@ module ChinChin
       end
       @punters = @players - [player]
       @banker = player
+    end
+
+    private
+
+    # プレイヤの集合の検証
+    #
+    # - 全ての要素がプレイヤである事
+    #
+    # @param players [Array<#cast>] プレイヤの集合
+    # @return [Array<#cast>] プレイヤの集合
+    # @raise [NotPlayerError]
+    def validate_players(players)
+      players.each{|player| validate_player(player)}
+    end
+
+    # プレイヤの検証
+    #
+    # - castメソッドを持っている
+    #
+    # @param player [#cast] プレイヤ
+    # @return [#cast] プレイヤ
+    # @raise [NotPlayerError]
+    def validate_player(player)
+      unless player.respond_to? :cast
+        raise NotPlayerError,
+          "This is not player object. cast method is necessary."
+      end
+      player
     end
   end
 end
