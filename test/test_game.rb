@@ -50,4 +50,23 @@ class TestGame < Test::Unit::TestCase
     game.banker = player3
     assert_equal [player1, player2], game.punters
   end
+
+  # ゲームに参加していないモノを親にする場合は例外が発生
+  def testBankerHasNotJoinedGameError
+    player1 = Object.new
+    player2 = Object.new
+    player3 = Object.new
+
+    game = ChinChin::Game.new(player1, player2)
+
+    # exception class
+    assert_raise ChinChin::Game::NotJoinedGameError do
+      game.banker = player3
+    end
+
+    # exception message
+    assert_raise "banker has not joined game." do
+      game.banker = player3
+    end
+  end
 end
