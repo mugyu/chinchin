@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 module ChinChin
+
+  # 正六面体ダイスを表すクラス
   class Dice
 
     def initialize()

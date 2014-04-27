@@ -4,6 +4,7 @@ require 'chinchin/dice'
 
 module ChinChin
 
+  # プレイヤを表すクラス
   class Player
     # @param [Class] reslut_klass 賽を投げた結果を表現するクラス
     def initialize(reslut_klass)
@@ -11,9 +12,11 @@ module ChinChin
       @dices = [Dice.new, Dice.new, Dice.new]
     end
 
-    # newで受けれた結果クラスのインスタンスを返す
+    # constructで受けつけた結果クラスのインスタンスを返す
     #
-    # @return newで受けれた結果クラスのインスタンス
+    # @memo ChinChin::Game は #cast を持つものを
+    #       プレイヤクラスとみなす
+    # @return 結果クラスのインスタンス
     def cast
       @Reslut_klass.new(@dices.map{|dice| dice.cast})
     end
