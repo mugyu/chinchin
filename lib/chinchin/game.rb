@@ -44,6 +44,7 @@ module ChinChin
     # @raise [NotPlayerError] プレイヤ以外を参加者に登録すると例外が発生する
     def initialize(*players)
       @players = validate_players(players.flatten)
+      @cast_times = 3
     end
 
     # 親を決定する
@@ -53,6 +54,31 @@ module ChinChin
       validate_banker(player)
       @punters = @players - [player]
       @banker = player
+    end
+
+    # 勝負をする
+    #
+    # ある回数、賽を投じて出た最高の点数を勝負の点数とする。
+    # ただし役が出来た場合は、その時点で勝負が決する。
+    #
+    # @param [#cast] player プレイヤ
+    # @return [Array<(Symble, Integer)>] 結果<(役, 点数)>
+    def play(player)
+      play_result = cast_result = player.cast
+      @cast_times.times do |number|
+        unless cast_result.yaku == cast_result.class::NOTHING
+          play_result = cast_result
+          break
+        end
+
+        if play_result.score < cast_result.score
+          play_result = cast_result
+        end
+
+        cast_result = player.cast if @cast_times > number
+      end
+
+      [play_result.yaku, play_result.score]
     end
 
     private
