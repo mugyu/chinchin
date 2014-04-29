@@ -66,7 +66,7 @@ module ChinChin
     def play(player)
       play_result = cast_result = player.cast
       @cast_times.times do |number|
-        unless cast_result.yaku == cast_result.class::NOTHING
+        if cast_result.yaku
           play_result = cast_result
           break
         end

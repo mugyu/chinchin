@@ -7,7 +7,7 @@ module ChinChin
     HIFUMI = :HIFUMI
     SHIGORO = :SHIGORO
     ARASHI = :ARASHI
-    NOTHING = :NOTHING
+    NOTHING = nil
 
     # @param [Array<Integer>] pips 3つの賽の目
     def initialize(pips)
@@ -39,13 +39,14 @@ module ChinChin
 
     # 役を返す
     #
-    # @return [Symbol] 役
+    # @return [Symbol] 役に応じたSymbol
+    # @return [nil] 役なしはnil
     #
     # 役の種類
-    # - :HIFUMI  ヒフミ [1, 3, 3]
-    # - :SHIGORO シゴロ [4, 5, 6]
-    # - :ARASHI  アラシ [ゾロ目]
-    # - :NOTHING 役なし
+    # - :HIFUMI  — ヒフミ [1, 3, 3]
+    # - :SHIGORO — シゴロ [4, 5, 6]
+    # - :ARASHI  — アラシ [ゾロ目]
+    # - nil      — 役なし
     def yaku
       case @pips.sort
       when [1, 2, 3]

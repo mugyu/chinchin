@@ -18,8 +18,6 @@ class TestGame < Test::Unit::TestCase
   class StabCheatPlayer
     class Result
 
-      NOTHING = :NOTHING
-
       attr_reader :yaku, :score
 
       def initialize(yaku, score)
@@ -127,36 +125,36 @@ class TestGame < Test::Unit::TestCase
   def testPlay
     # 目なしの場合
     nothing_and_0 = StabCheatPlayer.new([
-      [:NOTHING, 0],
-      [:NOTHING, 0],
-      [:NOTHING, 0]
+      [nil, 0],
+      [nil, 0],
+      [nil, 0]
     ])
     game = ChinChin::Game.new(nothing_and_0)
 
     yaku, score = game.play(nothing_and_0)
-    assert_equal :NOTHING, yaku
+    assert_equal nil, yaku
     assert_equal 0, score
 
     # 一投目の出目が1, 後続にそれを上回る出目2 が出現
     nothing_and_2 = StabCheatPlayer.new([
-      [:NOTHING, 1],
-      [:NOTHING, 2],
-      [:NOTHING, 0]
+      [nil, 1],
+      [nil, 2],
+      [nil, 0]
     ])
     game = ChinChin::Game.new(nothing_and_2)
     yaku, score = game.play(nothing_and_2)
-    assert_equal :NOTHING, yaku
+    assert_equal nil, yaku
     assert_equal 2, score
 
     # 一投目で出目が5、後続は一投目より低い目
     nothing_and_5 = StabCheatPlayer.new([
-      [:NOTHING, 5],
-      [:NOTHING, 4],
-      [:NOTHING, 3]
+      [nil, 5],
+      [nil, 4],
+      [nil, 3]
     ])
     game = ChinChin::Game.new(nothing_and_5)
     yaku, score = game.play(nothing_and_5)
-    assert_equal :NOTHING, yaku
+    assert_equal nil, yaku
     assert_equal 5, score
 
     # 一投目でヒフミ
