@@ -24,16 +24,16 @@ module ChinChin
     # 点数を返す
     #
     # @return [Integer] 点数
-    def score
+    def point
       case yaku
       when HIFUMI
         -1
       when SHIGORO
         10
       when ARASHI
-        10 + _score
+        10 + _point
       else
-        _score
+        _point
       end
     end
 
@@ -66,7 +66,7 @@ module ChinChin
     # 出目の点数を返す
     #
     # @return [Integer] 出目の点数
-    def _score
+    def _point
       pips = @pips.sort
       case 
       when pips[0] == pips[1]

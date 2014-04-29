@@ -18,11 +18,11 @@ class TestGame < Test::Unit::TestCase
   class StabCheatPlayer
     class Result
 
-      attr_reader :yaku, :score
+      attr_reader :yaku, :point
 
-      def initialize(yaku, score)
+      def initialize(yaku, point)
         @yaku = yaku
-        @score = score
+        @point = point
       end
     end
 
@@ -32,9 +32,9 @@ class TestGame < Test::Unit::TestCase
     end
 
     def cast
-      yaku, score = @seed[@cast_number]
+      yaku, point = @seed[@cast_number]
       @cast_number += 1
-      Result.new(yaku, score)
+      Result.new(yaku, point)
     end
   end
 
@@ -131,9 +131,9 @@ class TestGame < Test::Unit::TestCase
     ])
     game = ChinChin::Game.new(nothing_and_0)
 
-    yaku, score = game.play(nothing_and_0)
+    yaku, point = game.play(nothing_and_0)
     assert_equal nil, yaku
-    assert_equal 0, score
+    assert_equal 0, point
 
     # 一投目の出目が1, 後続にそれを上回る出目2 が出現
     nothing_and_2 = StabCheatPlayer.new([
@@ -142,9 +142,9 @@ class TestGame < Test::Unit::TestCase
       [nil, 0]
     ])
     game = ChinChin::Game.new(nothing_and_2)
-    yaku, score = game.play(nothing_and_2)
+    yaku, point = game.play(nothing_and_2)
     assert_equal nil, yaku
-    assert_equal 2, score
+    assert_equal 2, point
 
     # 一投目で出目が5、後続は一投目より低い目
     nothing_and_5 = StabCheatPlayer.new([
@@ -153,9 +153,9 @@ class TestGame < Test::Unit::TestCase
       [nil, 3]
     ])
     game = ChinChin::Game.new(nothing_and_5)
-    yaku, score = game.play(nothing_and_5)
+    yaku, point = game.play(nothing_and_5)
     assert_equal nil, yaku
-    assert_equal 5, score
+    assert_equal 5, point
 
     # 一投目でヒフミ
     # 役が出来た時点で決する為、一投で終わり
@@ -163,8 +163,8 @@ class TestGame < Test::Unit::TestCase
       [:HIFUMI, -1],
     ])
     game = ChinChin::Game.new(hifumi)
-    yaku, score = game.play(hifumi)
+    yaku, point = game.play(hifumi)
     assert_equal :HIFUMI, yaku
-    assert_equal(-1, score)
+    assert_equal(-1, point)
   end
 end

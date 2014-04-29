@@ -71,14 +71,14 @@ module ChinChin
           break
         end
 
-        if play_result.score < cast_result.score
+        if play_result.point < cast_result.point
           play_result = cast_result
         end
 
         cast_result = player.cast if @cast_times > number
       end
 
-      [play_result.yaku, play_result.score]
+      [play_result.yaku, play_result.point]
     end
 
     private

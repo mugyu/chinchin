@@ -10,23 +10,23 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が2つ以上同じならば違う目がスコア
-  def testScoreIsNotConbo
-    assert_equal 6, ChinChin::Result.new([1, 1, 6]).score
-    assert_equal 5, ChinChin::Result.new([2, 2, 5]).score
-    assert_equal 4, ChinChin::Result.new([4, 3, 3]).score
-    assert_equal 3, ChinChin::Result.new([3, 4, 4]).score
-    assert_equal 2, ChinChin::Result.new([5, 2, 5]).score
-    assert_equal 1, ChinChin::Result.new([6, 1, 6]).score
+  def testpointIsNotConbo
+    assert_equal 6, ChinChin::Result.new([1, 1, 6]).point
+    assert_equal 5, ChinChin::Result.new([2, 2, 5]).point
+    assert_equal 4, ChinChin::Result.new([4, 3, 3]).point
+    assert_equal 3, ChinChin::Result.new([3, 4, 4]).point
+    assert_equal 2, ChinChin::Result.new([5, 2, 5]).point
+    assert_equal 1, ChinChin::Result.new([6, 1, 6]).point
   end
 
   # 目がバラバラならばスコアは 0
   def testDisjointedPips
-    assert_equal 0, ChinChin::Result.new([2, 3, 4]).score
+    assert_equal 0, ChinChin::Result.new([2, 3, 4]).point
   end
  
   # 目が 1, 2, 3 ならばスコアは -1
-  def testScoreOfHifumi
-    assert_equal(-1,  ChinChin::Result.new([1, 2, 3]).score)
+  def testpointOfHifumi
+    assert_equal(-1,  ChinChin::Result.new([1, 2, 3]).point)
   end
 
   # 目が 1, 2, 3 ならば役はヒフミ
@@ -36,8 +36,8 @@ class TestResult < Test::Unit::TestCase
   end
  
   # 目が 4, 5, 6 ならばスコアは +10
-  def testScoreOfShigoro
-    assert_equal 10, ChinChin::Result.new([4, 5, 6]).score
+  def testpointOfShigoro
+    assert_equal 10, ChinChin::Result.new([4, 5, 6]).point
   end
 
   # 目が 4, 5, 6 ならば役はシゴロ
@@ -47,8 +47,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 1, 1, 1 ならばスコアは +11
-  def testScoreOfArashiWith111
-    assert_equal 11, ChinChin::Result.new([1, 1, 1]).score
+  def testpointOfArashiWith111
+    assert_equal 11, ChinChin::Result.new([1, 1, 1]).point
   end
 
   # 目が 1, 1, 1 ならば役はアラシ
@@ -58,8 +58,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 2, 2, 2 ならばスコアは +12
-  def testScoreOfArashiWith222
-    assert_equal 12, ChinChin::Result.new([2, 2, 2]).score
+  def testpointOfArashiWith222
+    assert_equal 12, ChinChin::Result.new([2, 2, 2]).point
   end
 
   # 目が 2, 2, 2 ならば役はアラシ
@@ -69,8 +69,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 3, 3, 3 ならばスコアは +13
-  def testScoreOfArashiWith333
-    assert_equal 13, ChinChin::Result.new([3, 3, 3]).score
+  def testpointOfArashiWith333
+    assert_equal 13, ChinChin::Result.new([3, 3, 3]).point
   end
 
   # 目が 3, 3, 3 ならば役はアラシ
@@ -80,8 +80,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 4, 4, 4 ならばスコアは +14
-  def testScoreOfArashiWith444
-    assert_equal 14, ChinChin::Result.new([4, 4, 4]).score
+  def testpointOfArashiWith444
+    assert_equal 14, ChinChin::Result.new([4, 4, 4]).point
   end
 
   # 目が 4, 4, 4 ならば役はアラシ
@@ -91,8 +91,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 5, 5, 5 ならばスコアは +15
-  def testScoreOfArashiWith555
-    assert_equal 15, ChinChin::Result.new([5, 5, 5]).score
+  def testpointOfArashiWith555
+    assert_equal 15, ChinChin::Result.new([5, 5, 5]).point
   end
 
   # 目が 5, 5, 5 ならば役はアラシ
@@ -102,8 +102,8 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 6, 6, 6 ならばスコアは +16
-  def testScoreOfArashiWith666
-    assert_equal 16, ChinChin::Result.new([6, 6, 6]).score
+  def testpointOfArashiWith666
+    assert_equal 16, ChinChin::Result.new([6, 6, 6]).point
   end
 
   # 目が 6, 6, 6 ならば役はアラシ
