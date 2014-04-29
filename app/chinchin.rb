@@ -7,8 +7,8 @@ require 'chinchin/result'
 player1 = ChinChin::Player.new(ChinChin::Result)
 player2 = ChinChin::Player.new(ChinChin::Result)
 
-result1 = player1.thow
-result2 = player2.thow
+result1 = player1.cast
+result2 = player2.cast
 
 puts "Player1::Dices: #{result1.dices}"
 puts "Player2::Dices: #{result2.dices}"
