@@ -14,8 +14,7 @@ module ChinChin
 
     # constructで受けつけた結果クラスのインスタンスを返す
     #
-    # @memo ChinChin::Game は #cast を持つものを
-    #       プレイヤクラスとみなす
+    # ChinChin::Game は #cast を持つものをプレイヤクラスとみなす
     # @return 結果クラスのインスタンス
     def cast
       @Reslut_klass.new(@dices.map{|dice| dice.cast})
