@@ -10,8 +10,8 @@ player2 = ChinChin::Player.new(ChinChin::Result)
 result1 = player1.cast
 result2 = player2.cast
 
-puts "Player1::Dices: #{result1.dices}"
-puts "Player2::Dices: #{result2.dices}"
+puts "Player1::Dices: #{result1.dices.inspect}"
+puts "Player2::Dices: #{result2.dices.inspect}"
 
 puts "Player1::Point: #{result1.point}"
 puts "Player2::Point: #{result2.point}"
