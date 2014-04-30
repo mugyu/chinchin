@@ -1,28 +1,38 @@
 ##!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+require 'chinchin/game'
 require 'chinchin/player'
 require 'chinchin/result'
 
-player1 = ChinChin::Player.new(ChinChin::Result)
-player2 = ChinChin::Player.new(ChinChin::Result)
+computer = ChinChin::Player.new(ChinChin::Result)
+you = ChinChin::Player.new(ChinChin::Result)
+game = ChinChin::Game.new(computer, you)
 
-result1 = player1.cast
-result2 = player2.cast
-
-puts "Player1::Dices: #{result1.dices.inspect}"
-puts "Player2::Dices: #{result2.dices.inspect}"
-
-puts "Player1::Point: #{result1.point}"
-puts "Player2::Point: #{result2.point}"
-
-geme_result = result1.point - result2.point
-if geme_result == 0
-  puts "Game was drawn."
-else
-  if geme_result > 0
-    puts "Game won by Player1."
+def judge(com_yaku, com_point, you_yaku, you_point)
+  puts "Computer: #{com_yaku ? com_yaku : com_point}"
+  if com_point < 2
+    puts "---------------"
+    puts "You Win!"
+  elsif com_point > 5 && com_yaku != :ARASHI
+    puts "---------------"
+    puts "You Lost."
   else
-    puts "Game won by Player2."
+    puts "You:      #{you_yaku ? you_yaku : you_point}"
+    puts "---------------"
+    if com_point == you_point
+      puts "Game was drown."
+    else
+      if com_point < you_point
+        puts "You Win!"
+      else
+        puts "You Lost."
+      end
+    end
   end
 end
+
+game.banker = computer
+com_yaku, com_point = game.play(computer)
+you_yaku, you_point = game.play(you)
+judge(com_yaku, com_point, you_yaku, you_point)
