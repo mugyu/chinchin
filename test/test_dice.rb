@@ -10,11 +10,11 @@ class TestDice < Test::Unit::TestCase
     @dice = ChinChin::Dice.new
   end
 
-  def testThrow
+  def testCast
     assert_kind_of Integer, @dice.cast
   end
 
-  def testThrowPhony
+  def testCastPhony
     assert_equal 1, @dice.cast(0)
     assert_equal 2, @dice.cast(1)
     assert_equal 3, @dice.cast(2)

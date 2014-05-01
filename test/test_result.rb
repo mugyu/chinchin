@@ -10,7 +10,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が2つ以上同じならば違う目がスコア
-  def testpointIsNotConbo
+  def testPointIsNotConbo
     assert_equal 6, ChinChin::Result.new([1, 1, 6]).point
     assert_equal 5, ChinChin::Result.new([2, 2, 5]).point
     assert_equal 4, ChinChin::Result.new([4, 3, 3]).point
@@ -25,7 +25,7 @@ class TestResult < Test::Unit::TestCase
   end
  
   # 目が 1, 2, 3 ならばスコアは -1
-  def testpointOfHifumi
+  def testPointOfHifumi
     assert_equal(-1,  ChinChin::Result.new([1, 2, 3]).point)
   end
 
@@ -36,7 +36,7 @@ class TestResult < Test::Unit::TestCase
   end
  
   # 目が 4, 5, 6 ならばスコアは +10
-  def testpointOfShigoro
+  def testPointOfShigoro
     assert_equal 10, ChinChin::Result.new([4, 5, 6]).point
   end
 
@@ -47,7 +47,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 1, 1, 1 ならばスコアは +11
-  def testpointOfArashiWith111
+  def testPointOfArashiWith111
     assert_equal 11, ChinChin::Result.new([1, 1, 1]).point
   end
 
@@ -58,7 +58,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 2, 2, 2 ならばスコアは +12
-  def testpointOfArashiWith222
+  def testPointOfArashiWith222
     assert_equal 12, ChinChin::Result.new([2, 2, 2]).point
   end
 
@@ -69,7 +69,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 3, 3, 3 ならばスコアは +13
-  def testpointOfArashiWith333
+  def testPointOfArashiWith333
     assert_equal 13, ChinChin::Result.new([3, 3, 3]).point
   end
 
@@ -80,7 +80,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 4, 4, 4 ならばスコアは +14
-  def testpointOfArashiWith444
+  def testPointOfArashiWith444
     assert_equal 14, ChinChin::Result.new([4, 4, 4]).point
   end
 
@@ -91,7 +91,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 5, 5, 5 ならばスコアは +15
-  def testpointOfArashiWith555
+  def testPointOfArashiWith555
     assert_equal 15, ChinChin::Result.new([5, 5, 5]).point
   end
 
@@ -102,7 +102,7 @@ class TestResult < Test::Unit::TestCase
   end
 
   # 目が 6, 6, 6 ならばスコアは +16
-  def testpointOfArashiWith666
+  def testPointOfArashiWith666
     assert_equal 16, ChinChin::Result.new([6, 6, 6]).point
   end
 

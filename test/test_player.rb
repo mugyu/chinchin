@@ -17,7 +17,7 @@ class TestPlayer < Test::Unit::TestCase
     @player = ChinChin::Player.new(StabReslut)
   end
 
-  def testThrow
+  def testCast
     assert_kind_of StabReslut, @player.cast
   end
 end
