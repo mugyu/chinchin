@@ -112,9 +112,9 @@ class TestResult < Test::Unit::TestCase
     assert_equal ChinChin::Result::ARASHI, :ARASHI
   end
 
-  # dicesプロパティはコンストラクタの引数そのもの
-  def testDices
+  # diceプロパティはコンストラクタの引数そのもの
+  def testDice
     pips = [1,2,3]
-    assert_same  pips, ChinChin::Result.new(pips).dices
+    assert_same  pips, ChinChin::Result.new(pips).dice
   end
 end

@@ -17,7 +17,7 @@ module ChinChin
     # 賽の目を返す
     #
     # @return [Array<Integer>] 3つの賽の目
-    def dices
+    def dice
       @pips
     end
 
