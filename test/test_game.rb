@@ -18,11 +18,12 @@ class TestGame < Test::Unit::TestCase
   class StabCheatPlayer
     class Result
 
-      attr_reader :yaku, :point
+      attr_reader :yaku, :point, :dice
 
-      def initialize(yaku, point)
+      def initialize(yaku, point, dice)
         @yaku = yaku
         @point = point
+        @dice = dice
       end
     end
 
@@ -32,9 +33,9 @@ class TestGame < Test::Unit::TestCase
     end
 
     def cast
-      yaku, point = @seed[@cast_number]
+      yaku, point, dice = @seed[@cast_number]
       @cast_number += 1
-      Result.new(yaku, point)
+      Result.new(yaku, point, dice)
     end
   end
 
@@ -125,46 +126,50 @@ class TestGame < Test::Unit::TestCase
   def testPlay
     # 目なしの場合
     nothing_and_0 = StabCheatPlayer.new([
-      [nil, 0],
-      [nil, 0],
-      [nil, 0]
+      [nil, 0, [1, 4, 5]],
+      [nil, 0, [2, 4, 5]],
+      [nil, 0, [3, 4, 5]]
     ])
     game = ChinChin::Game.new(nothing_and_0)
-
-    yaku, point = game.play(nothing_and_0)
+    yaku, point, dice = game.play(nothing_and_0)
     assert_equal nil, yaku
     assert_equal 0, point
+    assert_equal [[1, 4, 5], [2, 4, 5], [3, 4, 5]], dice
 
     # 一投目の出目が1, 後続にそれを上回る出目2 が出現
     nothing_and_2 = StabCheatPlayer.new([
-      [nil, 1],
-      [nil, 2],
-      [nil, 0]
+      [nil, 1, [1, 2, 2]],
+      [nil, 2, [2, 4, 4]],
+      [nil, 0, [1, 3, 6]]
     ])
     game = ChinChin::Game.new(nothing_and_2)
-    yaku, point = game.play(nothing_and_2)
+    yaku, point, dice = game.play(nothing_and_2)
     assert_equal nil, yaku
     assert_equal 2, point
+    assert_equal [[1, 2, 2], [2, 4, 4], [1, 3, 6]], dice
 
     # 一投目で出目が5、後続は一投目より低い目
     nothing_and_5 = StabCheatPlayer.new([
-      [nil, 5],
-      [nil, 4],
-      [nil, 3]
+      [nil, 5, [4, 4, 5]],
+      [nil, 4, [2, 4, 2]],
+      [nil, 3, [3, 1, 1]]
     ])
     game = ChinChin::Game.new(nothing_and_5)
-    yaku, point = game.play(nothing_and_5)
+    yaku, point, dice = game.play(nothing_and_5)
     assert_equal nil, yaku
     assert_equal 5, point
+    assert_equal [[4, 4, 5], [2, 4, 2], [3, 1, 1]], dice
 
-    # 一投目でヒフミ
-    # 役が出来た時点で決する為、一投で終わり
+    # 二投目でヒフミ
+    # 役が出来た時点で決する為、二投で終わり
     hifumi = StabCheatPlayer.new([
-      [:HIFUMI, -1],
+      [nil, 1, [6, 6, 1]],
+      [:HIFUMI, -1, [1, 2, 3]],
     ])
     game = ChinChin::Game.new(hifumi)
-    yaku, point = game.play(hifumi)
+    yaku, point, dice = game.play(hifumi)
     assert_equal :HIFUMI, yaku
     assert_equal(-1, point)
+    assert_equal [[6, 6, 1], [1, 2, 3]], dice
   end
 end

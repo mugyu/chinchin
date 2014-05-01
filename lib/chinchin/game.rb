@@ -62,10 +62,14 @@ module ChinChin
     # ただし役が出来た場合は、その時点で勝負が決する。
     #
     # @param [#cast] player プレイヤ
-    # @return [Array<(Symble, Integer)>] 結果<(役, 点数)>
+    # @return [Array<(Symble, Integer Array<Integer>)>]
+    #   結果<(役, 点数, 投じた賽の目)>
     def play(player)
+      dice = []
       play_result = cast_result = player.cast
       @cast_times.times do |number|
+        dice << cast_result.dice
+
         if cast_result.yaku
           play_result = cast_result
           break
@@ -78,7 +82,7 @@ module ChinChin
         cast_result = player.cast if @cast_times > number
       end
 
-      [play_result.yaku, play_result.point]
+      [play_result.yaku, play_result.point, dice]
     end
 
     private
