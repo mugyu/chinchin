@@ -13,6 +13,21 @@ module ChinChin
     # プレイヤ以外のオブジェクト
     class NotPlayerError < TypeError; end
 
+    # Game#play の結果を表すクラス
+    class Result
+
+      attr_reader :yaku, :point, :dice
+
+      # @param [Symble]  yaku  役
+      # @param [Integer] point 点数
+      # @param [Array<Array<Integer>>] dice 賽の目
+      def initialize(yaku, point, dice)
+        @yaku  = yaku
+        @point = point
+        @dice  = dice
+      end
+    end
+
     # プレイヤー(参加者)全員
     attr_reader :players
 
@@ -62,8 +77,7 @@ module ChinChin
     # ただし役が出来た場合は、その時点で勝負が決する。
     #
     # @param [#cast] player プレイヤ
-    # @return [Array<(Symble, Integer Array<Integer>)>]
-    #   結果<(役, 点数, 投じた賽の目)>
+    # @return [Result] 結果: yaku: 役, point: 点数, dice: 投じた賽の目
     def play(player)
       dice = []
       play_result = cast_result = player.cast
@@ -82,7 +96,7 @@ module ChinChin
         cast_result = player.cast if @cast_times > number
       end
 
-      [play_result.yaku, play_result.point, dice]
+      Result.new(play_result.yaku, play_result.point, dice)
     end
 
     private

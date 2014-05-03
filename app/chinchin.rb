@@ -9,28 +9,28 @@ computer = ChinChin::Player.new(ChinChin::Result)
 you = ChinChin::Player.new(ChinChin::Result)
 game = ChinChin::Game.new(computer, you)
 
-def judge(com_yaku, com_point, com_dice, you_yaku, you_point, you_dice)
-  com_dice.each do |die|
+def judge(com, you)
+  com.dice.each do |die|
     puts die.inspect
   end
-  puts "Computer: #{com_yaku ? com_yaku : com_point}"
-  if com_point < 2
+  puts "Computer: #{com.yaku ? com.yaku : com.point}"
+  if com.point < 2
     puts "==============="
     puts "You Win!"
-  elsif com_point > 5 && com_yaku != :ARASHI
+  elsif com.point > 5 && com.yaku != :ARASHI
     puts "==============="
     puts "You Lost."
   else
     puts "---------------"
-    you_dice.each do |die|
+    you.dice.each do |die|
       puts die.inspect
     end
-    puts "You:      #{you_yaku ? you_yaku : you_point}"
+    puts "You:      #{you.yaku ? you.yaku : you.point}"
     puts "==============="
-    if com_point == you_point
+    if com.point == you.point
       puts "Game was drown."
     else
-      if com_point < you_point
+      if com.point < you.point
         puts "You Win!"
       else
         puts "You Lost."
@@ -40,6 +40,4 @@ def judge(com_yaku, com_point, com_dice, you_yaku, you_point, you_dice)
 end
 
 game.banker = computer
-com_yaku, com_point, com_dice = game.play(computer)
-you_yaku, you_point, you_dice = game.play(you)
-judge(com_yaku, com_point, com_dice, you_yaku, you_point, you_dice)
+judge(game.play(computer), game.play(you))

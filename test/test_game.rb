@@ -131,10 +131,10 @@ class TestGame < Test::Unit::TestCase
       [nil, 0, [3, 4, 5]]
     ])
     game = ChinChin::Game.new(nothing_and_0)
-    yaku, point, dice = game.play(nothing_and_0)
-    assert_equal nil, yaku
-    assert_equal 0, point
-    assert_equal [[1, 4, 5], [2, 4, 5], [3, 4, 5]], dice
+    result = game.play(nothing_and_0)
+    assert_equal nil, result.yaku
+    assert_equal 0, result.point
+    assert_equal [[1, 4, 5], [2, 4, 5], [3, 4, 5]], result.dice
 
     # 一投目の出目が1, 後続にそれを上回る出目2 が出現
     nothing_and_2 = StabCheatPlayer.new([
@@ -143,10 +143,10 @@ class TestGame < Test::Unit::TestCase
       [nil, 0, [1, 3, 6]]
     ])
     game = ChinChin::Game.new(nothing_and_2)
-    yaku, point, dice = game.play(nothing_and_2)
-    assert_equal nil, yaku
-    assert_equal 2, point
-    assert_equal [[1, 2, 2], [2, 4, 4], [1, 3, 6]], dice
+    result = game.play(nothing_and_2)
+    assert_equal nil, result.yaku
+    assert_equal 2, result.point
+    assert_equal [[1, 2, 2], [2, 4, 4], [1, 3, 6]], result.dice
 
     # 一投目で出目が5、後続は一投目より低い目
     nothing_and_5 = StabCheatPlayer.new([
@@ -155,10 +155,10 @@ class TestGame < Test::Unit::TestCase
       [nil, 3, [3, 1, 1]]
     ])
     game = ChinChin::Game.new(nothing_and_5)
-    yaku, point, dice = game.play(nothing_and_5)
-    assert_equal nil, yaku
-    assert_equal 5, point
-    assert_equal [[4, 4, 5], [2, 4, 2], [3, 1, 1]], dice
+    result = game.play(nothing_and_5)
+    assert_equal nil, result.yaku
+    assert_equal 5, result.point
+    assert_equal [[4, 4, 5], [2, 4, 2], [3, 1, 1]], result.dice
 
     # 二投目でヒフミ
     # 役が出来た時点で決する為、二投で終わり
@@ -167,9 +167,9 @@ class TestGame < Test::Unit::TestCase
       [:HIFUMI, -1, [1, 2, 3]],
     ])
     game = ChinChin::Game.new(hifumi)
-    yaku, point, dice = game.play(hifumi)
-    assert_equal :HIFUMI, yaku
-    assert_equal(-1, point)
-    assert_equal [[6, 6, 1], [1, 2, 3]], dice
+    result = game.play(hifumi)
+    assert_equal :HIFUMI, result.yaku
+    assert_equal(-1, result.point)
+    assert_equal [[6, 6, 1], [1, 2, 3]], result.dice
   end
 end
