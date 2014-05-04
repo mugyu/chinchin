@@ -172,4 +172,52 @@ class TestGame < Test::Unit::TestCase
     assert_equal(-1, result.point)
     assert_equal [[6, 6, 1], [1, 2, 3]], result.dice
   end
+
+  # プレイヤを参加者一覧に追加する
+  # プレイヤを子の組に追加する
+  def testAddPlayer
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
+
+    game = ChinChin::Game.new(player1)
+
+    game.addPlayer(player2)
+    game.banker = player1
+    game.addPlayer(player3)
+
+    # 参加者
+    assert_equal [player1, player2, player3], game.players
+
+    # 子の組
+    assert_equal [player2, player3], game.punters
+  end
+
+  # プレイヤを参加者一覧から除外する
+  # プレイヤを子の組から除外する
+  # プレイヤが親の場合は親をnilにする
+  def testRemovePlayer
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
+
+    game = ChinChin::Game.new(player1, player2, player3)
+
+    game.banker = player3
+    game.removePlayer(player1)
+
+    # 親
+    assert_equal player3, game.banker
+
+    game.removePlayer(player3)
+
+    # 参加者
+    assert_equal [player2], game.players
+
+    # 親
+    assert_equal nil, game.banker
+
+    # 子の組
+    assert_equal [player2], game.punters
+  end
 end

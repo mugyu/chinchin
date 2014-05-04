@@ -59,6 +59,8 @@ module ChinChin
     # @raise [NotPlayerError] プレイヤ以外を参加者に登録すると例外が発生する
     def initialize(*players)
       @players = validate_players(players.flatten)
+      @punters = []
+      @banker = nil
       @cast_times = 3
     end
 
@@ -69,6 +71,28 @@ module ChinChin
       validate_banker(player)
       @punters = @players - [player]
       @banker = player
+    end
+
+    # プレイヤを参加者に追加する
+    #
+    # その際にプレイヤを子の組に追加する
+    #
+    # @param player プレイヤ
+    def addPlayer(player)
+      @players << player
+      @punters << player
+    end
+
+    # プレイヤを参加者から除外する
+    #
+    # その際にプレイヤを子の組から除外し、
+    # プレイヤが親の場合は親をnilにする
+    #
+    # @param player プレイヤ
+    def removePlayer(player)
+      @players = @players - [player]
+      @punters = @punters - [player]
+      @banker = nil if @banker == player
     end
 
     # 勝負をする
