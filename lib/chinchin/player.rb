@@ -6,8 +6,13 @@ module ChinChin
 
   # プレイヤを表すクラス
   class Player
+
+    # 名前を返す
+    attr_reader :name
+
     # @param [Class] reslut_klass 賽を投げた結果を表現するクラス
-    def initialize(reslut_klass)
+    def initialize(name, reslut_klass)
+      @name = name
       @Reslut_klass = reslut_klass
       @dices = [Dice.new, Dice.new, Dice.new]
     end

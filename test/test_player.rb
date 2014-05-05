@@ -14,10 +14,14 @@ class TestPlayer < Test::Unit::TestCase
   end
 
   def setup
-    @player = ChinChin::Player.new(StabReslut)
+    @player = ChinChin::Player.new("Alan Smithee", StabReslut)
   end
 
   def testCast
     assert_kind_of StabReslut, @player.cast
+  end
+
+  def testName
+    assert_equal "Alan Smithee", @player.name
   end
 end
