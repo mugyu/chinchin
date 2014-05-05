@@ -5,39 +5,38 @@ require 'chinchin/game'
 require 'chinchin/player'
 require 'chinchin/result'
 
-computer = ChinChin::Player.new(ChinChin::Result)
-you = ChinChin::Player.new(ChinChin::Result)
-game = ChinChin::Game.new(computer, you)
+def judge(game, banker_result, punter)
+  return [:Win]  if banker_result.point < 2
+  return [:Lost] if banker_result.point > 5
 
-def judge(com, you)
-  com.dice.each do |die|
-    puts die.inspect
-  end
-  puts "Computer: #{com.yaku ? com.yaku : com.point}"
-  if com.point < 2
-    puts "==============="
-    puts "You Win!"
-  elsif com.point > 5 && com.yaku != :ARASHI
-    puts "==============="
-    puts "You Lost."
+  result = game.play(punter)
+  return [:Draw, result] if banker_result.point == result.point
+  return [:Win,  result] if banker_result.point < result.point
+  return [:Lost, result]
+end
+
+def view(player, head, result = nil)
+  if result
+    printf "%6s: #{player.name} <#{result.yaku ? result.yaku : result.point}> #{result.dice.inspect}\n", head
   else
-    puts "---------------"
-    you.dice.each do |die|
-      puts die.inspect
-    end
-    puts "You:      #{you.yaku ? you.yaku : you.point}"
-    puts "==============="
-    if com.point == you.point
-      puts "Game was drown."
-    else
-      if com.point < you.point
-        puts "You Win!"
-      else
-        puts "You Lost."
-      end
-    end
+    printf "%6s: #{player.name}\n", head
   end
 end
 
-game.banker = computer
-judge(game.play(computer), game.play(you))
+def punters_list(game, banker_result)
+  game.punters.each do |punter|
+    view(punter, *(judge(game, banker_result, punter)))
+  end
+end
+
+banker  = ChinChin::Player.new("banker",  ChinChin::Result)
+punter1 = ChinChin::Player.new("punter1", ChinChin::Result)
+punter2 = ChinChin::Player.new("punter2", ChinChin::Result)
+punter3 = ChinChin::Player.new("punter3", ChinChin::Result)
+game = ChinChin::Game.new(banker, punter1, punter2, punter3)
+
+game.banker = banker
+banker_result = game.play(game.banker)
+view(game.banker, "Banker", banker_result)
+puts "-------"
+punters_list(game, banker_result)
