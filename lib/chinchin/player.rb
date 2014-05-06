@@ -10,10 +10,19 @@ module ChinChin
     # 名前を返す
     attr_reader :name
 
-    # @param [Class] reslut_klass 賽を投げた結果を表現するクラス
-    def initialize(name, reslut_klass)
+    # @param [String] name 名前
+    # @param [Class]  result_klass 賽を投げた結果を表現するクラス
+    #
+    #   defaultの直接的な値はnilですが、
+    #   実質的にはChinChin::Resultが定義されます
+    def initialize(name, result_klass = nil)
       @name = name
-      @Reslut_klass = reslut_klass
+      if result_klass
+        @Reslut_klass = result_klass
+      else
+        require 'chinchin/result'
+        @Reslut_klass = ChinChin::Result
+      end
       @dices = [Dice.new, Dice.new, Dice.new]
     end
 

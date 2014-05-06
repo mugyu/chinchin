@@ -24,4 +24,10 @@ class TestPlayer < Test::Unit::TestCase
   def testName
     assert_equal "Alan Smithee", @player.name
   end
+
+  # result_klass の実質的なデフォルト値は ChinChin::Result
+  def testDefaultResultClass
+    player = ChinChin::Player.new("test default result class")
+    assert_kind_of ChinChin::Result, player.cast
+  end
 end
