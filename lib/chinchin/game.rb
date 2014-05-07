@@ -123,7 +123,39 @@ module ChinChin
       Result.new(play_result.yaku, play_result.point, dice)
     end
 
+    # ゲームを行う
+    def game
+      banker_result = play(banker)
+      punters.inject([{player: banker, result: banker_result}]) do |result, punter|
+        result << judge(banker_result, punter)
+      end
+    end
+
     private
+
+    # 勝負の判定を行う
+    #
+    # - 親の役がヒフミの場合、無条件に子の勝ち
+    # - 親の役がシゴロの場合、無条件に子の負け
+    # - 親の役がアラシの場合、無条件に子の負け
+    # - 親の出目が1の場合、無条件に子の負け
+    # - 親の出目が6の場合、無条件に子の負け
+    # - 親の出目が2から5の場合
+    #   - 子の役がヒフミの場合、子の負け
+    #   - 子の役がシゴロの場合、子の勝ち
+    #   - 子の役がアラシの場合、子の勝ち
+    #   - 子の出目が親の出目より大きい場合、子の勝ち
+    #   - 子の出目が親の出目より小さい場合、子の負け
+    #   - 子の出目と親の出目が同じ場合、引き分け
+    def judge(banker_result, punter)
+      return {player: punter, status: :Win}  if banker_result.point < 2
+      return {player: punter, status: :Lost} if banker_result.point > 5
+
+      result = play(punter)
+      return {player: punter, status: :Draw, result: result} if banker_result.point == result.point
+      return {player: punter, status: :Win,  result: result} if banker_result.point < result.point
+      return {player: punter, status: :Lost, result: result}
+    end
 
     # プレイヤの集合の検証
     #

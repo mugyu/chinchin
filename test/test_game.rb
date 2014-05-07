@@ -220,4 +220,80 @@ class TestGame < Test::Unit::TestCase
     # 子の組
     assert_equal [player2], game.punters
   end
+
+  # 親の出目は5
+  # 子の目は、
+  # - 出目が3の負け
+  # - 役がシゴロの勝ち
+  # - 出目が5の引き分け
+  def testGame
+    banker = StabCheatPlayer.new([
+      [nil, 5, [4, 4, 5]],
+      [nil, 4, [2, 4, 2]],
+      [nil, 3, [3, 1, 1]]
+    ])
+    punter1 = StabCheatPlayer.new([
+      [nil, 1, [1, 1, 2]],
+      [nil, 0, [3, 4, 2]],
+      [nil, 3, [6, 6, 3]]
+    ])
+    punter2 = StabCheatPlayer.new([
+      [:SIGORO, 10, [6, 4, 5]],
+    ])
+    punter3 = StabCheatPlayer.new([
+      [nil, 4, [2, 4, 2]],
+      [nil, 3, [3, 1, 1]],
+      [nil, 5, [4, 4, 5]]
+    ])
+
+    game = ChinChin::Game.new(banker, punter1, punter2, punter3)
+    game.banker = banker
+    result = game.game
+
+    assert_equal nil, result[0][:result].yaku
+    assert_equal 5, result[0][:result].point
+
+    assert_equal :Lost, result[1][:status]
+    assert_equal nil, result[1][:result].yaku
+    assert_equal 3, result[1][:result].point
+
+    assert_equal :Win, result[2][:status]
+    assert_equal :SIGORO, result[2][:result].yaku
+    assert_equal 10, result[2][:result].point
+
+    assert_equal :Draw, result[3][:status]
+    assert_equal nil, result[3][:result].yaku
+    assert_equal 5, result[3][:result].point
+
+  end
+
+  # 親の役がアラシなので子は無条件で負け
+  # 子の結果が無し
+  def testGameBankerWithARASHI
+    banker = StabCheatPlayer.new([
+      [:ARASHI, 11, [1, 1, 1]]
+    ])
+    punter1 = StabCheatPlayer.new([
+      [nil, 5, [4, 4, 5]],
+      [nil, 4, [2, 4, 2]],
+      [nil, 3, [3, 1, 1]]
+    ])
+    punter2 = StabCheatPlayer.new([
+      [nil, 5, [4, 4, 5]],
+      [nil, 4, [2, 4, 2]],
+      [nil, 3, [3, 1, 1]]
+    ])
+
+    game = ChinChin::Game.new(banker, punter1, punter2)
+    game.banker = banker
+    result = game.game
+
+    assert_equal :ARASHI, result[0][:result].yaku
+    assert_equal 11, result[0][:result].point
+
+    assert_equal :Lost, result[1][:status]
+    assert_equal nil, result[1][:result]
+    assert_equal :Lost, result[2][:status]
+    assert_equal nil, result[2][:result]
+  end
 end
