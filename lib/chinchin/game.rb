@@ -28,6 +28,15 @@ module ChinChin
       end
     end
 
+    # 勝ち
+    WIN  = :Win
+
+    # 負け
+    LOST = :Lost
+
+    # 引き分け
+    DRAW = :Draw
+
     # プレイヤー(参加者)全員
     attr_reader :players
 
@@ -148,13 +157,13 @@ module ChinChin
     #   - 子の出目が親の出目より小さい場合、子の負け
     #   - 子の出目と親の出目が同じ場合、引き分け
     def judge(banker_result, punter)
-      return {player: punter, status: :Win}  if banker_result.point < 2
-      return {player: punter, status: :Lost} if banker_result.point > 5
+      return {player: punter, status: WIN}  if banker_result.point < 2
+      return {player: punter, status: LOST} if banker_result.point > 5
 
       result = play(punter)
-      return {player: punter, status: :Draw, result: result} if banker_result.point == result.point
-      return {player: punter, status: :Win,  result: result} if banker_result.point < result.point
-      return {player: punter, status: :Lost, result: result}
+      return {player: punter, status: DRAW, result: result} if banker_result.point == result.point
+      return {player: punter, status: WIN,  result: result} if banker_result.point <  result.point
+      return {player: punter, status: LOST, result: result}
     end
 
     # プレイヤの集合の検証
