@@ -104,14 +104,15 @@ module ChinChin
       @banker = nil if @banker == player
     end
 
-    # 勝負をする
+    # 役作りをする
     #
-    # ある回数、賽を投じて出た最高の点数を勝負の点数とする。
-    # ただし役が出来た場合は、その時点で勝負が決する。
+    # 決められた回数、賽を投じ役作りを行う。
+    # - 途中で役が出来た場合はその時点で役が決定し以降は賽を振らない。
+    # - 役が出来なかった場合は出目の最高点数を結果として返す。
     #
     # @param [#cast] player プレイヤ
     # @return [Result] 結果: yaku: 役, point: 点数, dice: 投じた賽の目
-    def play(player)
+    def make(player)
       dice = []
       play_result = cast_result = player.cast
       @cast_times.times do |number|
@@ -132,9 +133,9 @@ module ChinChin
       Result.new(play_result.yaku, play_result.point, dice)
     end
 
-    # ゲームを行う
-    def game
-      banker_result = play(banker)
+    # 勝負を行う
+    def play
+      banker_result = make(banker)
       punters.inject([{player: banker, result: banker_result}]) do |result, punter|
         result << judge(banker_result, punter)
       end
@@ -160,7 +161,7 @@ module ChinChin
       return {player: punter, status: WIN}  if banker_result.point < 2
       return {player: punter, status: LOST} if banker_result.point > 5
 
-      result = play(punter)
+      result = make(punter)
       return {player: punter, status: DRAW, result: result} if banker_result.point == result.point
       return {player: punter, status: WIN,  result: result} if banker_result.point <  result.point
       return {player: punter, status: LOST, result: result}

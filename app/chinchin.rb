@@ -19,7 +19,7 @@ punter3 = ChinChin::Player.new("punter3")
 game = ChinChin::Game.new(banker, punter1, punter2, punter3)
 
 game.banker = banker
-result = game.game
+result = game.play
 result.each do |score|
   if score[:player] == banker
     view(score[:player], "Banker", score[:result])

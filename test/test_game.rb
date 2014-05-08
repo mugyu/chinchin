@@ -122,8 +122,8 @@ class TestGame < Test::Unit::TestCase
     end
   end
 
-  # 勝負を行った結果を検証(賽を投じた結果では無い)
-  def testPlay
+  # 役作りの結果を検証(賽を投じた結果では無い)
+  def testMake
     # 目なしの場合
     nothing_and_0 = StabCheatPlayer.new([
       [nil, 0, [1, 4, 5]],
@@ -131,7 +131,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 0, [3, 4, 5]]
     ])
     game = ChinChin::Game.new(nothing_and_0)
-    result = game.play(nothing_and_0)
+    result = game.make(nothing_and_0)
     assert_equal nil, result.yaku
     assert_equal 0, result.point
     assert_equal [[1, 4, 5], [2, 4, 5], [3, 4, 5]], result.dice
@@ -143,7 +143,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 0, [1, 3, 6]]
     ])
     game = ChinChin::Game.new(nothing_and_2)
-    result = game.play(nothing_and_2)
+    result = game.make(nothing_and_2)
     assert_equal nil, result.yaku
     assert_equal 2, result.point
     assert_equal [[1, 2, 2], [2, 4, 4], [1, 3, 6]], result.dice
@@ -155,7 +155,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 3, [3, 1, 1]]
     ])
     game = ChinChin::Game.new(nothing_and_5)
-    result = game.play(nothing_and_5)
+    result = game.make(nothing_and_5)
     assert_equal nil, result.yaku
     assert_equal 5, result.point
     assert_equal [[4, 4, 5], [2, 4, 2], [3, 1, 1]], result.dice
@@ -167,7 +167,7 @@ class TestGame < Test::Unit::TestCase
       [:HIFUMI, -1, [1, 2, 3]],
     ])
     game = ChinChin::Game.new(hifumi)
-    result = game.play(hifumi)
+    result = game.make(hifumi)
     assert_equal :HIFUMI, result.yaku
     assert_equal(-1, result.point)
     assert_equal [[6, 6, 1], [1, 2, 3]], result.dice
@@ -248,7 +248,7 @@ class TestGame < Test::Unit::TestCase
 
     game = ChinChin::Game.new(banker, punter1, punter2, punter3)
     game.banker = banker
-    result = game.game
+    result = game.play
 
     assert_equal nil, result[0][:result].yaku
     assert_equal 5, result[0][:result].point
@@ -286,7 +286,7 @@ class TestGame < Test::Unit::TestCase
 
     game = ChinChin::Game.new(banker, punter1, punter2)
     game.banker = banker
-    result = game.game
+    result = game.play
 
     assert_equal :ARASHI, result[0][:result].yaku
     assert_equal 11, result[0][:result].point
