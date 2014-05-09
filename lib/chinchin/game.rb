@@ -135,9 +135,27 @@ module ChinChin
 
     # 勝負を行う
     def play
+
+      # 親が役を作り、続いて子の組がそれぞれ役を作る。
+      # そして、それぞれの子と親とがお互いの役および出目を比較し
+      # 勝敗を判定する。
+      # ただし「親に役ができた。あるいは親の出目が1または6」の場合は
+      # 子は役を作らず、その時点で勝敗が決する
       banker_result = make(banker)
-      punters.inject([{player: banker, result: banker_result}]) do |result, punter|
-        result << judge(banker_result, punter)
+      punters.inject([{player: banker, result: banker_result}]) do |results, punter|
+        if judged = judge(banker_result)
+          results << {
+            player: punter,
+            status: judged
+          }
+        else
+          punter_result = make(punter)
+          results << {
+            player: punter,
+            status: judge(banker_result, punter_result),
+            result: punter_result
+          }
+        end
       end
     end
 
@@ -151,20 +169,26 @@ module ChinChin
     # - 親の出目が1の場合、無条件に子の負け
     # - 親の出目が6の場合、無条件に子の負け
     # - 親の出目が2から5の場合
+    #   - 子の結果が未定義の場合は nil を返す
     #   - 子の役がヒフミの場合、子の負け
     #   - 子の役がシゴロの場合、子の勝ち
     #   - 子の役がアラシの場合、子の勝ち
     #   - 子の出目が親の出目より大きい場合、子の勝ち
     #   - 子の出目が親の出目より小さい場合、子の負け
     #   - 子の出目と親の出目が同じ場合、引き分け
-    def judge(banker_result, punter)
-      return {player: punter, status: WIN}  if banker_result.point < 2
-      return {player: punter, status: LOST} if banker_result.point > 5
-
-      result = make(punter)
-      return {player: punter, status: DRAW, result: result} if banker_result.point == result.point
-      return {player: punter, status: WIN,  result: result} if banker_result.point <  result.point
-      return {player: punter, status: LOST, result: result}
+    #
+    # @param banker 親の役と出目
+    # @param punter 子の役と出目
+    # @return [Symble]
+    #   「子が勝った、負けた。あるいは引き分けた」
+    #   という結果を示すSymbleを返す
+    def judge(banker, punter = nil)
+      return WIN  if banker.point < 2
+      return LOST if banker.point > 5
+      return nil  if punter.nil?
+      return WIN  if banker.point < punter.point
+      return LOST if banker.point > punter.point
+      DRAW
     end
 
     # プレイヤの集合の検証
