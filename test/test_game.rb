@@ -132,6 +132,7 @@ class TestGame < Test::Unit::TestCase
     ])
     game = ChinChin::Game.new(nothing_and_0)
     result = game.make(nothing_and_0)
+    assert_equal nothing_and_0, result.player
     assert_equal nil, result.yaku
     assert_equal 0, result.point
     assert_equal [[1, 4, 5], [2, 4, 5], [3, 4, 5]], result.dice
@@ -144,6 +145,7 @@ class TestGame < Test::Unit::TestCase
     ])
     game = ChinChin::Game.new(nothing_and_2)
     result = game.make(nothing_and_2)
+    assert_equal nothing_and_2, result.player
     assert_equal nil, result.yaku
     assert_equal 2, result.point
     assert_equal [[1, 2, 2], [2, 4, 4], [1, 3, 6]], result.dice
@@ -156,6 +158,7 @@ class TestGame < Test::Unit::TestCase
     ])
     game = ChinChin::Game.new(nothing_and_5)
     result = game.make(nothing_and_5)
+    assert_equal nothing_and_5, result.player
     assert_equal nil, result.yaku
     assert_equal 5, result.point
     assert_equal [[4, 4, 5], [2, 4, 2], [3, 1, 1]], result.dice
@@ -168,6 +171,7 @@ class TestGame < Test::Unit::TestCase
     ])
     game = ChinChin::Game.new(hifumi)
     result = game.make(hifumi)
+    assert_equal hifumi, result.player
     assert_equal :HIFUMI, result.yaku
     assert_equal(-1, result.point)
     assert_equal [[6, 6, 1], [1, 2, 3]], result.dice
@@ -226,7 +230,7 @@ class TestGame < Test::Unit::TestCase
   # - 出目が3の負け
   # - 役がシゴロの勝ち
   # - 出目が5の引き分け
-  def testGame
+  def testPlay
     banker = StabCheatPlayer.new([
       [nil, 5, [4, 4, 5]],
       [nil, 4, [2, 4, 2]],
@@ -248,28 +252,27 @@ class TestGame < Test::Unit::TestCase
 
     game = ChinChin::Game.new(banker, punter1, punter2, punter3)
     game.banker = banker
-    result = game.play
+    results = game.play
 
-    assert_equal nil, result[0][:result].yaku
-    assert_equal 5, result[0][:result].point
+    assert_equal nil, results[0].yaku
+    assert_equal 5,   results[0].point
 
-    assert_equal :Lost, result[1][:status]
-    assert_equal nil, result[1][:result].yaku
-    assert_equal 3, result[1][:result].point
+    assert_equal :Lost, results[1].outcome
+    assert_equal nil,   results[1].yaku
+    assert_equal 3,     results[1].point
 
-    assert_equal :Win, result[2][:status]
-    assert_equal :SIGORO, result[2][:result].yaku
-    assert_equal 10, result[2][:result].point
+    assert_equal :Win,    results[2].outcome
+    assert_equal :SIGORO, results[2].yaku
+    assert_equal 10,      results[2].point
 
-    assert_equal :Draw, result[3][:status]
-    assert_equal nil, result[3][:result].yaku
-    assert_equal 5, result[3][:result].point
-
+    assert_equal :Draw, results[3].outcome
+    assert_equal nil,   results[3].yaku
+    assert_equal 5,     results[3].point
   end
 
   # 親の役がアラシなので子は無条件で負け
   # 子の結果が無し
-  def testGameBankerWithARASHI
+  def testPlayBankerWithARASHI
     banker = StabCheatPlayer.new([
       [:ARASHI, 11, [1, 1, 1]]
     ])
@@ -286,14 +289,16 @@ class TestGame < Test::Unit::TestCase
 
     game = ChinChin::Game.new(banker, punter1, punter2)
     game.banker = banker
-    result = game.play
+    results = game.play
 
-    assert_equal :ARASHI, result[0][:result].yaku
-    assert_equal 11, result[0][:result].point
+    assert_equal :ARASHI, results[0].yaku
+    assert_equal 11, results[0].point
 
-    assert_equal :Lost, result[1][:status]
-    assert_equal nil, result[1][:result]
-    assert_equal :Lost, result[2][:status]
-    assert_equal nil, result[2][:result]
+    assert_equal :Lost, results[1].outcome
+    assert_equal nil,   results[1].yaku
+    assert_equal nil,   results[1].point
+    assert_equal :Lost, results[2].outcome
+    assert_equal nil,   results[2].yaku
+    assert_equal nil,   results[2].point
   end
 end

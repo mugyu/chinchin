@@ -16,15 +16,31 @@ module ChinChin
     # Game#play の結果を表すクラス
     class Result
 
-      attr_reader :yaku, :point, :dice
+      attr_reader :player, :yaku, :point, :dice
 
-      # @param [Symble]  yaku  役
-      # @param [Integer] point 点数
+      # @param [#cast]   player プレイヤ
+      # @param [Symble]  yaku   役
+      # @param [Integer] point  点数
       # @param [Array<Array<Integer>>] dice 賽の目
-      def initialize(yaku, point, dice)
-        @yaku  = yaku
-        @point = point
-        @dice  = dice
+      def initialize(player, yaku = nil, point = nil, dice = nil)
+        @player  = player
+        @yaku    = yaku
+        @point   = point
+        @dice    = dice
+        @outcome = nil
+      end
+
+      # @overload outcome(outcome)
+      #   勝敗をセットする
+      #   @param  [Symble] outcome 勝敗
+      #   @return [Result] 自身を返す
+      # @overload outcome(outcome)
+      #   勝敗を返す
+      #   @return [Symble, nil] 勝敗
+      def outcome(outcome  = nil)
+        return @outcome if  outcome.nil?
+        @outcome = outcome
+        self
       end
     end
 
@@ -111,7 +127,8 @@ module ChinChin
     # - 役が出来なかった場合は出目の最高点数を結果として返す。
     #
     # @param [#cast] player プレイヤ
-    # @return [Result] 結果: yaku: 役, point: 点数, dice: 投じた賽の目
+    # @return [Result]
+    #   結果: player: プレイヤ, yaku: 役, point: 点数, dice: 投じた賽の目
     def make(player)
       dice = []
       play_result = cast_result = player.cast
@@ -130,7 +147,7 @@ module ChinChin
         cast_result = player.cast if @cast_times > number
       end
 
-      Result.new(play_result.yaku, play_result.point, dice)
+      Result.new(player, play_result.yaku, play_result.point, dice)
     end
 
     # 勝負を行う
@@ -142,19 +159,13 @@ module ChinChin
       # ただし「親に役ができた。あるいは親の出目が1または6」の場合は
       # 子は役を作らず、その時点で勝敗が決する
       banker_result = make(banker)
-      punters.inject([{player: banker, result: banker_result}]) do |results, punter|
+      punters.inject([banker_result]) do |match_results, punter|
         if judged = judge(banker_result)
-          results << {
-            player: punter,
-            status: judged
-          }
+          match_results << Result.new(punter).outcome(judged)
         else
           punter_result = make(punter)
-          results << {
-            player: punter,
-            status: judge(banker_result, punter_result),
-            result: punter_result
-          }
+          match_results <<
+            punter_result.outcome(judge(banker_result, punter_result))
         end
       end
     end

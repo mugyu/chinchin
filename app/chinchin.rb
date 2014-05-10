@@ -4,11 +4,14 @@ $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 require 'chinchin/game'
 require 'chinchin/player'
 
-def view(player, head, result = nil)
-  if result
-    printf "%6s: #{player.name} <#{result.yaku ? result.yaku : result.point}> #{result.dice.inspect}\n", head
+def view(result)
+  if result.point
+    head = result.outcome ? result.outcome : "Banker"
+    point = result.yaku ? result.yaku : result.point
+    dice = result.dice.inspect
+    printf "%6s: #{result.player.name} <#{point}> #{dice}\n", head
   else
-    printf "%6s: #{player.name}\n", head
+    printf "%6s: #{result.player.name}\n", result.outcome
   end
 end
 
@@ -19,12 +22,12 @@ punter3 = ChinChin::Player.new("punter3")
 game = ChinChin::Game.new(banker, punter1, punter2, punter3)
 
 game.banker = banker
-result = game.play
-result.each do |score|
-  if score[:player] == banker
-    view(score[:player], "Banker", score[:result])
+results = game.play
+results.each do |result|
+  if result.player == banker
+    view(result)
     puts "-------"
   else
-    view(score[:player], score[:status], *(score[:result]))
+    view(result)
   end
 end
