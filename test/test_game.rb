@@ -254,20 +254,20 @@ class TestGame < Test::Unit::TestCase
     game.banker = banker
     results = game.play
 
-    assert_equal nil, results[0].yaku
-    assert_equal 5,   results[0].point
+    assert_equal nil,     results[:banker].yaku
+    assert_equal 5,       results[:banker].point
 
-    assert_equal :Lost, results[1].outcome
-    assert_equal nil,   results[1].yaku
-    assert_equal 3,     results[1].point
+    assert_equal :Lost,   results[:punters][0].outcome
+    assert_equal nil,     results[:punters][0].yaku
+    assert_equal 3,       results[:punters][0].point
 
-    assert_equal :Win,    results[2].outcome
-    assert_equal :SIGORO, results[2].yaku
-    assert_equal 10,      results[2].point
+    assert_equal :Win,    results[:punters][1].outcome
+    assert_equal :SIGORO, results[:punters][1].yaku
+    assert_equal 10,      results[:punters][1].point
 
-    assert_equal :Draw, results[3].outcome
-    assert_equal nil,   results[3].yaku
-    assert_equal 5,     results[3].point
+    assert_equal :Draw,   results[:punters][2].outcome
+    assert_equal nil,     results[:punters][2].yaku
+    assert_equal 5,       results[:punters][2].point
   end
 
   # 親の役がアラシなので子は無条件で負け
@@ -291,14 +291,14 @@ class TestGame < Test::Unit::TestCase
     game.banker = banker
     results = game.play
 
-    assert_equal :ARASHI, results[0].yaku
-    assert_equal 11, results[0].point
+    assert_equal :ARASHI, results[:banker].yaku
+    assert_equal 11,      results[:banker].point
 
-    assert_equal :Lost, results[1].outcome
-    assert_equal nil,   results[1].yaku
-    assert_equal nil,   results[1].point
-    assert_equal :Lost, results[2].outcome
-    assert_equal nil,   results[2].yaku
-    assert_equal nil,   results[2].point
+    assert_equal :Lost,   results[:punters][0].outcome
+    assert_equal nil,     results[:punters][0].yaku
+    assert_equal nil,     results[:punters][0].point
+    assert_equal :Lost,   results[:punters][1].outcome
+    assert_equal nil,     results[:punters][1].yaku
+    assert_equal nil,     results[:punters][1].point
   end
 end

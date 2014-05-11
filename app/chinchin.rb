@@ -9,6 +9,7 @@ def view(result)
     head = result.outcome ? result.outcome : "Banker"
     point = result.yaku ? result.yaku : result.point
     dice = result.dice.inspect
+
     printf "%6s: #{result.player.name} <#{point}> #{dice}\n", head
   else
     printf "%6s: #{result.player.name}\n", result.outcome
@@ -23,11 +24,8 @@ game = ChinChin::Game.new(banker, punter1, punter2, punter3)
 
 game.banker = banker
 results = game.play
-results.each do |result|
-  if result.player == banker
-    view(result)
-    puts "-------"
-  else
-    view(result)
-  end
+view(results[:banker])
+puts "-------"
+results[:punters].each do |result|
+  view(result)
 end

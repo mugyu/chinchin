@@ -158,8 +158,27 @@ module ChinChin
       # 勝敗を判定する。
       # ただし「親に役ができた。あるいは親の出目が1または6」の場合は
       # 子は役を作らず、その時点で勝敗が決する
-      banker_result = make(banker)
-      punters.inject([banker_result]) do |match_results, punter|
+      banker_result = make_banker
+
+      {banker:  banker_result,
+       punters: play_punters(banker_result)}
+    end
+
+    private
+
+    # 親の役作り
+    #
+    # @return [Result] 親の役および出目
+    def make_banker
+      make(banker)
+    end
+
+    # 子の組の役作り
+    #
+    # @param [Result] banker_result 親の役および出目
+    # @return [Array<Result>] 子の組の役および出目
+    def play_punters(banker_result)
+      punters.inject([]) do |match_results, punter|
         if judged = judge(banker_result)
           match_results << Result.new(punter).outcome(judged)
         else
@@ -169,8 +188,6 @@ module ChinChin
         end
       end
     end
-
-    private
 
     # 勝負の判定を行う
     #
