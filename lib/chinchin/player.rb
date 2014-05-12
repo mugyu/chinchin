@@ -10,6 +10,9 @@ module ChinChin
     # 名前を返す
     attr_reader :name
 
+    # 現在のトークンの量を返す
+    attr_reader :tokens
+
     # @param [String] name 名前
     # @param [Class]  result_klass 賽を投げた結果を表現するクラス
     #
@@ -24,6 +27,7 @@ module ChinChin
         @Reslut_klass = ChinChin::Result
       end
       @dices = [Dice.new, Dice.new, Dice.new]
+      @tokens = 100
     end
 
     # constructで受けつけた結果クラスのインスタンスを返す
@@ -32,6 +36,20 @@ module ChinChin
     # @return 結果クラスのインスタンス
     def cast
       @Reslut_klass.new(@dices.map{|dice| dice.cast})
+    end
+
+    # トークンを増やす
+    #
+    # @param [Integer] increment 増分
+    def incrementTokens(increment)
+      @tokens += increment
+    end
+
+    # トークンを減らす
+    #
+    # @param [Integer] decrement 減分
+    def decrementTokens(decrement)
+      @tokens -= decrement
     end
   end
 end
