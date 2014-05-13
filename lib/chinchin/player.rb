@@ -41,14 +41,14 @@ module ChinChin
     # トークンを増やす
     #
     # @param [Integer] increment 増分
-    def incrementTokens(increment)
+    def increment_tokens(increment)
       @tokens += increment
     end
 
     # トークンを減らす
     #
     # @param [Integer] decrement 減分
-    def decrementTokens(decrement)
+    def decrement_tokens(decrement)
       @tokens -= decrement
     end
   end

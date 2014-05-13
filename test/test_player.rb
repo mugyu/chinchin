@@ -39,14 +39,14 @@ class TestPlayer < Test::Unit::TestCase
   # トークンを増やす
   def testIncrementToken
     assert_equal 100, @player.tokens
-    @player.incrementTokens 40
+    @player.increment_tokens 40
     assert_equal 140, @player.tokens
   end
 
   # トークンを減らす
   def testDecrementToken
     assert_equal 100, @player.tokens
-    @player.decrementTokens 40
+    @player.decrement_tokens 40
     assert_equal 60, @player.tokens
   end
 end
