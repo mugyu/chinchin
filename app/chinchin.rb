@@ -31,28 +31,42 @@ def view(result)
   end
 end
 
+def play(game)
+  results = game.play
+  results[:punters].each do |result|
+    point = point_by(results[:banker].yaku ? results[:banker].yaku : result.yaku)
+
+    case result.outcome
+    when ChinChin::Game::WIN
+      game.banker.decrement_tokens   point
+      result.player.increment_tokens point
+    when ChinChin::Game::LOST
+      game.banker.increment_tokens   point
+      result.player.decrement_tokens point
+    else
+    end
+    view(result)
+  end
+  puts "-------"
+  view(results[:banker])
+end
+
+def start(game)
+  loop do
+    puts
+    play(game)
+    puts
+    print '[input "quit" or "exit" to quit] '
+    pless_key = gets
+    break if pless_key.is_a?(String) && /\A[qecb]/i =~ pless_key
+  end
+end
+
 banker  = ChinChin::Player.new("banker")
 punter1 = ChinChin::Player.new("punter1")
 punter2 = ChinChin::Player.new("punter2")
 punter3 = ChinChin::Player.new("punter3")
 game = ChinChin::Game.new(banker, punter1, punter2, punter3)
-
 game.banker = banker
-results = game.play
-results[:punters].each do |result|
-  point = point_by(results[:banker].yaku ? results[:banker].yaku : result.yaku)
 
-  case result.outcome
-  when ChinChin::Game::WIN
-    game.banker.decrement_tokens   point
-    result.player.increment_tokens point
-  when ChinChin::Game::LOST
-    point = 5
-    game.banker.increment_tokens   point
-    result.player.decrement_tokens point
-  else
-  end
-  view(result)
-end
-puts "-------"
-view(results[:banker])
+start(game)
