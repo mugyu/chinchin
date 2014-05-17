@@ -8,7 +8,7 @@ require 'stringio'
 
 class App < Sinatra::Base
 
-  TITLE = :ChinChin
+  set :public_folder, File.expand_path(File.join(root, "..", "public"))
 
   configure :development do
     puts "Development mode."
@@ -17,6 +17,8 @@ class App < Sinatra::Base
   configure :production do
     puts "Production mode."
   end
+
+  TITLE = :ChinChin
 
   DEFAULT_POINT = 5
 
@@ -33,13 +35,27 @@ class App < Sinatra::Base
     end
   end
 
+  # ダイスのimgタグを返す
+  #
+  # @param pips 出目
+  def dice_image(pips)
+    "<image src='img/dice16-#{pips}.gif' />"
+  end
+
+  # 複数のダイスのimgタグを返す
+  #
+  # @param dice 複数の出目
+  def dice_images(dice)
+    dice.map{|pips|dice_image(pips)}
+  end
+
   def view(result)
     if result.point
       head = result.outcome ? result.outcome : "Banker"
       point = result.yaku ? result.yaku : result.point
-      dice = result.dice.inspect
+      dice_images_set = result.dice.map{|dice|dice_images(dice).join}
 
-      printf "%3d %6s: #{result.player.name} <#{point}> #{dice}\n", result.player.tokens, head
+      printf "%3d %6s: #{result.player.name} [ #{point} ] #{dice_images_set.join("&nbsp;")}\n", result.player.tokens, head
     else
       printf "%3d %6s: #{result.player.name}\n", result.player.tokens, result.outcome
     end
@@ -65,7 +81,6 @@ class App < Sinatra::Base
     view(results[:banker])
   end
 
-
   get "/" do
     @title = TITLE
 
@@ -85,6 +100,4 @@ class App < Sinatra::Base
 
     erb :index
   end
-
-
 end
