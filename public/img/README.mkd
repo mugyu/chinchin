@@ -1,0 +1,6 @@
+what? .edg fle
+==============
+
+拡張子が ".edg" のファイルは 高機能ドット絵エディタ EDGE のデータファイルです。
+
+高機能ドット絵エディタ EDGE: http://takabosoft.com/edge
