@@ -4,3 +4,8 @@ what? .edg file
 拡張子が ".edg" のファイルは 高機能ドット絵エディタ EDGE のデータファイルです。
 
 高機能ドット絵エディタ "EDGE": http://takabosoft.com/edge
+
+images
+------
+
+Dice 16x16 4色: ![dice16-1](dice16-1.gif) ![dice16-2](dice16-2.gif) ![dice16-3](dice16-3.gif) ![dice16-4](dice16-4.gif) ![dice16-5](dice16-5.gif) ![dice16-6](dice16-6.gif)
