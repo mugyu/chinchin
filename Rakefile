@@ -4,7 +4,7 @@ require 'yard/rake/yardoc_task'
 
 task :default => [:test, :yard]
 
-SOURCE_FILES = FileList.new('./lib/**/*.rb')
+SOURCE_FILES = FileList.new('./lib/**/*.rb', './app/**/*.rb')
 
 desc "test/unit"
 Rake::TestTask.new do |t|
