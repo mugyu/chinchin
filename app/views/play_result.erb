@@ -1,0 +1,27 @@
+<div class="play_result">
+  <div class="name <%= outcome %>">
+    <div class="label">Name:</div>
+    <div class="value"><%= name %></div>
+  </div>
+  <div class="stats">
+    <div class="point">
+      <div class="label label-info">Point:</div>
+      <div class="value"><%= point %></div>
+    </div>
+    <div class="tokens">
+      <div class="label label-info">Tokens:</div>
+      <div class="value"><%= tokens %></div>
+    </div>
+  </div>
+  <div class="dice">
+    <% unless dice_set.nil? %>
+      <% dice_set.each do |dice| %>
+        <ul>
+        <% dice.each do |pips| %>
+          <%= dice_image(pips) %>
+        <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+.play_result {
+  border: 1px solid #C0C0C0;
+  width: 300px;
+}
+
+.play_result .label {
+  font-size: 12px;
+  width: 60px;
+}
+
+.play_result .value {
+  font-size: 12px;
+  min-width: 60px;
+}
+
+.play_result .name {
+  background-color: #C0A030;
+  color: white;
+  padding: 0.5em;
+}
+.play_result .name.Win {
+  background-color: #B03050;
+}
+.play_result .name.Lost {
+  background-color: #305080;
+}
+.play_result .name.Draw {
+  background-color: #70A070;
+}
+.play_result .name div {
+  display: inline-block;
+}
+
+.play_result .stats {
+  float: left;
+}
+
+.play_result .point {
+  padding: 0.5em;
+}
+.play_result .point div {
+  display: inline-block;
+}
+
+.play_result .tokens {
+  display: inline-block;
+  padding: 0.5em;
+}
+.play_result .tokens div {
+  display: inline-block;
+}
+
+.play_result .dice {
+  min-height: 75px;
+  display: inline-block;
+}
+.play_result .dice ul {
+  padding: 0;
+  margin: 10px;
+}
+.play_result .dice li {
+  display: inline;
+}

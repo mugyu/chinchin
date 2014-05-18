@@ -49,36 +49,40 @@ class App < Sinatra::Base
     dice.map{|pips|dice_image(pips)}
   end
 
-  def view(result)
-    if result.point
-      head = result.outcome ? result.outcome : "Banker"
-      point = result.yaku ? result.yaku : result.point
-      dice_images_set = result.dice.map{|dice|dice_images(dice).join}
-
-      printf "%3d %6s: #{result.player.name} [ #{point} ] #{dice_images_set.join("&nbsp;")}\n", result.player.tokens, head
-    else
-      printf "%3d %6s: #{result.player.name}\n", result.player.tokens, result.outcome
-    end
+  # プレイ結果の表示
+  #
+  # @param result プレイ結果
+  # @param role   親と子の識別 :banker 親, :punter 子
+  def play_result(result, role)
+    erb :play_result, locals: {
+      name: result.player.name,
+      outcome: result.outcome,
+      point: result.yaku ? result.yaku : result.point,
+      tokens: result.player.tokens,
+      dice_set: result.dice
+    }
   end
 
+  # 一勝負する
+  #
+  # @param game Game Instance
   def play(game)
     results = game.play
-    results[:punters].each do |result|
-      point = point_by(results[:banker].yaku ? results[:banker].yaku : result.yaku)
+    results[:punters].each do |punter_result|
+      point = point_by(results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
 
-      case result.outcome
+      case punter_result.outcome
       when ChinChin::Game::WIN
-        game.banker.decrement_tokens   point
-        result.player.increment_tokens point
+        game.banker.decrement_tokens point
+        punter_result.player.increment_tokens point
       when ChinChin::Game::LOST
-        game.banker.increment_tokens   point
-        result.player.decrement_tokens point
+        game.banker.increment_tokens point
+        punter_result.player.decrement_tokens point
       else
+        next
       end
-      view(result)
     end
-    puts "-------"
-    view(results[:banker])
+    results
   end
 
   get "/" do
@@ -91,13 +95,6 @@ class App < Sinatra::Base
     game = ChinChin::Game.new(banker, punter1, punter2, punter3)
     game.banker = banker
 
-    buff = StringIO.new
-    $stdout = buff
-    play(game)
-    $stdout = STDOUT
-
-    @result = buff.string
-
-    erb :index
+    erb :index, :locals => {game_results: play(game)}
   end
 end
