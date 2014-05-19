@@ -61,3 +61,11 @@
 .play_result .dice li {
   display: inline;
 }
+
+#banker_panel {
+  float: left;
+}
+#punters_panel {
+  margin: 0 0 0 2em;
+  display: inline-block;
+}

@@ -1,7 +1,11 @@
 <h2>Play Result</h2>
+<div id="banker_panel">
 <h3>Banker</h3>
 <%= play_result(game_results[:banker], :banker) %>
-<h3>Puntres</h3>
+</div>
+<div id="punters_panel">
+<h3>Punters</h3>
 <% game_results[:punters].each do |result| %>
   <%= play_result(result, :punter) %>
 <% end %>
+</div>
