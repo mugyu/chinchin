@@ -39,7 +39,7 @@ class App < Sinatra::Base
   #
   # @param pips 出目
   def dice_image(pips)
-    "<image src='img/dice16-#{pips}.gif' />"
+    %Q|<image src="img/dice16-#{pips}.gif" />|
   end
 
   # 複数のダイスのimgタグを返す
@@ -52,9 +52,9 @@ class App < Sinatra::Base
   def outcome_icon(outcome)
     case outcome
     when ChinChin::Game::WIN
-      %Q|<img src="img/win.gif">|
+      %Q|<img src="img/win.gif" />|
     when ChinChin::Game::LOST
-      %Q|<img src="img/lost.gif">|
+      %Q|<img src="img/lost.gif" />|
     when ChinChin::Game::DRAW
       ""
     else
