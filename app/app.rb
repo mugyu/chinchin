@@ -49,6 +49,19 @@ class App < Sinatra::Base
     dice.map{|pips|dice_image(pips)}
   end
 
+  def outcome_icon(outcome)
+    case outcome
+    when ChinChin::Game::WIN
+      %Q|<img src="img/win.gif">|
+    when ChinChin::Game::LOST
+      %Q|<img src="img/lost.gif">|
+    when ChinChin::Game::DRAW
+      ""
+    else
+      ""
+    end
+  end
+
   # プレイ結果の表示
   #
   # @param result プレイ結果
