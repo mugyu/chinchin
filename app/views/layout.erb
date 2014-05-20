@@ -13,7 +13,7 @@
 <body class="container">
 <div class="row">
   <p class="alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span> Work in progress.</p>
-  <h1><%= @title %></h1>
+  <h1 id="title"><a href="<%= url("/") %>"><%= @title %></a></h1>
 
   <%= yield %>
 

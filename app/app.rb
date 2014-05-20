@@ -115,4 +115,8 @@ class App < Sinatra::Base
 
     erb :index, :locals => {game_results: play(game)}
   end
+
+  get "/play" do
+    alias_path "/"
+  end
 end
