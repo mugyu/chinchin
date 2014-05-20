@@ -18,6 +18,11 @@ class App < Sinatra::Base
     puts "Production mode."
   end
 
+  # 別名path
+  def alias_path(path)
+    call env.merge("PATH_INFO" => path)
+  end
+
   TITLE = :ChinChin
 
   DEFAULT_POINT = 5
