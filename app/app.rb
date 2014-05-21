@@ -4,8 +4,6 @@ require 'sinatra/base'
 require 'chinchin/game'
 require 'chinchin/player'
 
-require 'stringio'
-
 class App < Sinatra::Base
 
   set :public_folder, File.expand_path(File.join(root, "..", "public"))
