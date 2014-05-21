@@ -38,20 +38,6 @@ class App < Sinatra::Base
     end
   end
 
-  # ダイスのimgタグを返す
-  #
-  # @param pips 出目
-  def dice_image(pips)
-    %Q|<image src="img/dice16-#{pips}.gif" />|
-  end
-
-  # 複数のダイスのimgタグを返す
-  #
-  # @param dice 複数の出目
-  def dice_images(dice)
-    dice.map{|pips|dice_image(pips)}
-  end
-
   def outcome_icon(outcome)
     case outcome
     when ChinChin::Game::WIN

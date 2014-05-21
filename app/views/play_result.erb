@@ -19,7 +19,7 @@
       <% dice_set.each do |dice| %>
         <ul>
         <% dice.each do |pips| %>
-          <%= dice_image(pips) %>
+          <%= erb :dice_image, locals: {pips: pips} %>
         <% end %>
         </ul>
       <% end %>
