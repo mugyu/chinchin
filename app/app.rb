@@ -38,33 +38,6 @@ class App < Sinatra::Base
     end
   end
 
-  def outcome_icon(outcome)
-    case outcome
-    when ChinChin::Game::WIN
-      %Q|<img src="img/win.gif" />|
-    when ChinChin::Game::LOST
-      %Q|<img src="img/lost.gif" />|
-    when ChinChin::Game::DRAW
-      ""
-    else
-      ""
-    end
-  end
-
-  # プレイ結果の表示
-  #
-  # @param result プレイ結果
-  # @param role   親と子の識別 :banker 親, :punter 子
-  def play_result(result, role)
-    erb :play_result, locals: {
-      name: result.player.name,
-      outcome: result.outcome,
-      point: result.yaku ? result.yaku : result.point,
-      tokens: result.player.tokens,
-      dice_set: result.dice
-    }
-  end
-
   # 一勝負する
   #
   # @param game Game Instance
