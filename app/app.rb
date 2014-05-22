@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 require 'sinatra/base'
+require 'sinatra/reloader'
 require 'chinchin/game'
 require 'chinchin/player'
 
@@ -10,6 +11,7 @@ class App < Sinatra::Base
 
   configure :development do
     puts "Development mode."
+    register Sinatra::Reloader
   end
 
   configure :production do
