@@ -1,23 +1,14 @@
-<%
-def locals(result, role)
-  { name: result.player.name,
-    outcome: result.outcome,
-    point: result.yaku ? result.yaku : result.point,
-    tokens: result.player.tokens,
-    dice_set: result.dice
-  }
-end
-%>
+<% require 'views/play_result' %>
 
 <a href="<%= url("/play") %>" class="btn btn-primary btn-lg" role="button">It's Play!</a>
 <h2>Play Result</h2>
 <div id="banker_panel">
 <h3>Banker</h3>
-<%= erb :play_result, locals: locals(game_results[:banker], :banker) %>
+<%= play_result(game_results[:banker]) %>
 </div>
 <div id="punters_panel">
 <h3>Punters</h3>
 <% game_results[:punters].each do |result| %>
-  <%= erb :play_result, locals: locals(result, :punter) %>
+  <%= play_result(result) %>
 <% end %>
 </div>

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+$LOAD_PATH.unshift File.dirname(__FILE__)
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'chinchin/game'
