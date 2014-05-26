@@ -26,7 +26,7 @@ module ChinChin
         require 'chinchin/result'
         @Reslut_klass = ChinChin::Result
       end
-      @dices = [Dice.new, Dice.new, Dice.new]
+      @dice_set = [Dice.new, Dice.new, Dice.new]
       @tokens = 100
     end
 
@@ -35,7 +35,7 @@ module ChinChin
     # ChinChin::Game は #cast を持つものをプレイヤクラスとみなす
     # @return 結果クラスのインスタンス
     def cast
-      @Reslut_klass.new(@dices.map{|dice| dice.cast})
+      @Reslut_klass.new(@dice_set.map{|dice| dice.cast})
     end
 
     # トークンを増やす
