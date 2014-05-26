@@ -1,6 +1,11 @@
 <div class="play_result">
   <div class="name <%= outcome %>">
-    <div class="outcome"><%= erb :outcome_icon, locals: {outcome: outcome} %></div>
+    <% if outcome == ChinChin::Game::WIN  ||
+          outcome == ChinChin::Game::LOST ||
+          outcome == ChinChin::Game::DRAW %>
+      <div class="outcome"><%= erb :outcome_icon, locals: {outcome: outcome} %></div>
+    <% else %>
+    <% end %>
     <div class="label">Name:</div>
     <div class="value"><%= name %></div>
   </div>
