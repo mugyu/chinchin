@@ -3,8 +3,11 @@ $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'sinatra/base'
 require 'sinatra/reloader'
+
 require 'chinchin/game'
 require 'chinchin/player'
+
+require 'views/play_result'
 
 class App < Sinatra::Base
 
@@ -63,7 +66,10 @@ class App < Sinatra::Base
     results
   end
 
+  helpers Views::Play_result
+
   get "/" do
+
     @title = TITLE
 
     banker  = ChinChin::Player.new("banker")
