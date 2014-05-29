@@ -8,6 +8,7 @@ require 'chinchin/game'
 require 'chinchin/player'
 
 require 'views/play_result'
+require 'models/playing'
 
 class App < Sinatra::Base
 
@@ -29,44 +30,8 @@ class App < Sinatra::Base
 
   TITLE = :ChinChin
 
-  DEFAULT_POINT = 5
-
-  def point_by(yaku)
-    case yaku
-    when ChinChin::Result::ARASHI
-      DEFAULT_POINT * 3
-    when ChinChin::Result::SHIGORO
-      DEFAULT_POINT * 2
-    when ChinChin::Result::HIFUMI
-      DEFAULT_POINT * 2
-    else
-      DEFAULT_POINT
-    end
-  end
-
-  # 一勝負する
-  #
-  # @param game Game Instance
-  def play(game)
-    results = game.play
-    results[:punters].each do |punter_result|
-      point = point_by(results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
-
-      case punter_result.outcome
-      when ChinChin::Game::WIN
-        game.banker.decrement_tokens point
-        punter_result.player.increment_tokens point
-      when ChinChin::Game::LOST
-        game.banker.increment_tokens point
-        punter_result.player.decrement_tokens point
-      else
-        next
-      end
-    end
-    results
-  end
-
   helpers Views::Play_result
+  helpers Models::Playing
 
   get "/" do
 
