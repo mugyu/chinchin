@@ -31,7 +31,6 @@ class App < Sinatra::Base
   TITLE = :ChinChin
 
   helpers Views::Play_result
-  helpers Models::Playing
 
   get "/" do
 
@@ -42,9 +41,10 @@ class App < Sinatra::Base
     punter2 = ChinChin::Player.new("punter2")
     punter3 = ChinChin::Player.new("punter3")
     game = ChinChin::Game.new(banker, punter1, punter2, punter3)
+    game.extend Models::Playing
     game.banker = banker
 
-    erb :index, :locals => {game_results: play(game)}
+    erb :index, :locals => {game_results: game.play}
   end
 
   get "/play" do
