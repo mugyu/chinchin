@@ -10,18 +10,24 @@ require 'views/play_result'
 require 'models/playing_game'
 
 module GameBuilder
-  def self.new_game
-    banker  = ChinChin::Player.new("banker")
-    punter1 = ChinChin::Player.new("punter1")
-    punter2 = ChinChin::Player.new("punter2")
-    punter3 = ChinChin::Player.new("punter3")
-    @game = Models::PlayingGame.new(banker, punter1, punter2, punter3)
-    @game.banker = banker
-    @game
+  def self.included(base)
+    base.extend ClassMethods_
   end
 
-  def self.game
-    @game ||= self.class.new_game
+  module ClassMethods_
+    def new_game
+      banker  = ChinChin::Player.new("banker")
+      punter1 = ChinChin::Player.new("punter1")
+      punter2 = ChinChin::Player.new("punter2")
+      punter3 = ChinChin::Player.new("punter3")
+      @game = Models::PlayingGame.new(banker, punter1, punter2, punter3)
+      @game.banker = banker
+      @game
+    end
+
+    def game
+      @game ||= new_game
+    end
   end
 
   # syntax suger for `self.class.game`
@@ -33,6 +39,7 @@ module GameBuilder
   def new_game
     self.class.new_game
   end
+
 end
 
 class App < Sinatra::Base
