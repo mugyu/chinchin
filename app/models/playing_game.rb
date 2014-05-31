@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+require 'chinchin/game'
+
 module Models
-  module Playing
+  class PlayingGame < ChinChin::Game
 
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze

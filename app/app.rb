@@ -4,11 +4,10 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'sinatra/base'
 require 'sinatra/reloader'
 
-require 'chinchin/game'
 require 'chinchin/player'
 
 require 'views/play_result'
-require 'models/playing'
+require 'models/playing_game'
 
 class App < Sinatra::Base
 
@@ -40,8 +39,7 @@ class App < Sinatra::Base
     punter1 = ChinChin::Player.new("punter1")
     punter2 = ChinChin::Player.new("punter2")
     punter3 = ChinChin::Player.new("punter3")
-    game = ChinChin::Game.new(banker, punter1, punter2, punter3)
-    game.extend Models::Playing
+    game = Models::PlayingGame.new(banker, punter1, punter2, punter3)
     game.banker = banker
 
     erb :index, :locals => {game_results: game.play}
