@@ -66,10 +66,11 @@ class App < Sinatra::Base
   helpers GameBuilder
 
   get "/" do
-    erb :index, :locals => {game_results: new_game.play}
+    new_game
+    erb :index
   end
 
   get "/play" do
-    erb :index, :locals => {game_results: game.play}
+    erb :play, :locals => {game_results: game.play}
   end
 end

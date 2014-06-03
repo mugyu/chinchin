@@ -7,14 +7,16 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <!-- Application -->
-  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/layout.css">
   <title><%= TITLE %></title>
 </head>
 <body class="container">
 <div class="row">
-  <h1 id="title"><a href="<%= url("/") %>"><%= TITLE %></a></h1>
+  <h1 id="title"><%= TITLE %></h1>
 
+  <div id="body">
   <%= yield %>
+  </div>
 
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
