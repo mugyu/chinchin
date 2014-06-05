@@ -16,10 +16,10 @@ module GameBuilder
 
   module ClassMethods_
     def new_game
-      banker  = ChinChin::Player.new("banker")
-      punter1 = ChinChin::Player.new("punter1")
-      punter2 = ChinChin::Player.new("punter2")
-      punter3 = ChinChin::Player.new("punter3")
+      banker  = ChinChin::Player.new("Alan Smithee")
+      punter1 = ChinChin::Player.new("John Doe")
+      punter2 = ChinChin::Player.new("Richard Roe")
+      punter3 = ChinChin::Player.new("Mario Rossi")
       @game = Models::PlayingGame.new(banker, punter1, punter2, punter3)
       @game.banker = banker
       @game
