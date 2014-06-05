@@ -98,9 +98,9 @@ class TestGame < Test::Unit::TestCase
     assert_equal [player1, player3], game.punters
 
     # 親が変わったら、新しい親が子の組から除外され、
-    # それまでの親が子の組に加わる
-    game.banker = player3
-    assert_equal [player1, player2], game.punters
+    # それまでの親が子の組の最後に加わる
+    game.banker = player1
+    assert_equal [player3, player2], game.punters
   end
 
   # ゲームに参加していないモノを親にする場合は例外が発生

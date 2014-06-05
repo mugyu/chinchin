@@ -46,7 +46,18 @@ module Models
           next
         end
       end
+
+      # ヒフミ、出目なし、出目1の場合は親落ち
+      rotate_banker if results[:banker].point < 2
+
       results
+    end
+
+    # 親落ち
+    #
+    # 親をローテーションする
+    def rotate_banker
+      self.banker = punters[0]
     end
   end
 end

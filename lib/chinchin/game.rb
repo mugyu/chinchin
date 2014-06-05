@@ -94,7 +94,12 @@ module ChinChin
     # @see #banker
     def banker=(player)
       validate_banker(player)
-      @punters = @players - [player]
+      if @banker
+        @punters = @punters - [player]
+        @punters << @banker
+      else
+        @punters = @players - [player]
+      end
       @banker = player
     end
 
