@@ -103,7 +103,7 @@ module ChinChin
     # その際にプレイヤを子の組に追加する
     #
     # @param player プレイヤ
-    def addPlayer(player)
+    def add_player(player)
       @players << player
       @punters << player
     end
@@ -114,7 +114,7 @@ module ChinChin
     # プレイヤが親の場合は親をnilにする
     #
     # @param player プレイヤ
-    def removePlayer(player)
+    def remove_player(player)
       @players = @players - [player]
       @punters = @punters - [player]
       @banker = nil if @banker == player

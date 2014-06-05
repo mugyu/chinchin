@@ -186,9 +186,9 @@ class TestGame < Test::Unit::TestCase
 
     game = ChinChin::Game.new(player1)
 
-    game.addPlayer(player2)
+    game.add_player(player2)
     game.banker = player1
-    game.addPlayer(player3)
+    game.add_player(player3)
 
     # 参加者
     assert_equal [player1, player2, player3], game.players
@@ -208,12 +208,12 @@ class TestGame < Test::Unit::TestCase
     game = ChinChin::Game.new(player1, player2, player3)
 
     game.banker = player3
-    game.removePlayer(player1)
+    game.remove_player(player1)
 
     # 親
     assert_equal player3, game.banker
 
-    game.removePlayer(player3)
+    game.remove_player(player3)
 
     # 参加者
     assert_equal [player2], game.players
