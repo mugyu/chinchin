@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Views
   module Play_result
     def play_result(result)

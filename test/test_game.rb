@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 require 'test/unit'
 require 'chinchin/game'

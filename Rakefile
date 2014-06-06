@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'rake/testtask'
 require 'yard'
 require 'yard/rake/yardoc_task'
