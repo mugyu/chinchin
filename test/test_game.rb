@@ -56,23 +56,6 @@ class TestGame < Test::Unit::TestCase
     assert_equal [player1, player2, player3], game.players
   end
 
-  # castメソッドを持たないモノを参加者させようとした場合、例外が発生
-  def testNotPlayerObjectError
-    player1 = StabPlayer.new
-    player2 = StabPlayer.new
-    notPlayer = StabNotPlayer.new
-
-    # exception class
-    assert_raise ChinChin::Game::NotPlayerError do
-      ChinChin::Game.new(player1, player2, notPlayer)
-    end
-
-    # exception message
-    assert_raise "This is not player object. cast method is necessary." do
-      ChinChin::Game.new(player1, player2, notPlayer)
-    end
-  end
-
   # 親(Banker)の設定と参照
   def testSetBanker
     player1 = StabPlayer.new
@@ -82,47 +65,30 @@ class TestGame < Test::Unit::TestCase
     game = ChinChin::Game.new(player1, player2, player3)
     game.banker = player2
     assert_same player2, game.banker
-    assert_not_equal player1, game.banker
-    assert_not_equal player3, game.banker
-
-    # 親を新たに設定すると Game#bankerもそれに追随する
-    game.banker = player1
-    assert_same player1, game.banker
   end
 
-  # 親(Banker)が決まったら、その他の参加者が子の組(punters)になる
-  def testPunters
+  # プレイヤを参加者一覧に追加する
+  def testAddPlayer
+    player1 = StabPlayer.new
+    player2 = StabPlayer.new
+    player3 = StabPlayer.new
+
+    game = ChinChin::Game.new(player1)
+    game.add_player(player2)
+    game.add_player(player3)
+    assert_equal [player1, player2, player3], game.players
+  end
+
+  # プレイヤを参加者一覧から除外する
+  def testRemovePlayer
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
 
     game = ChinChin::Game.new(player1, player2, player3)
-    game.banker = player2
-    assert_equal [player1, player3], game.punters
-
-    # 親が変わったら、新しい親が子の組から除外され、
-    # それまでの親が子の組の最後に加わる
-    game.banker = player1
-    assert_equal [player3, player2], game.punters
-  end
-
-  # ゲームに参加していないモノを親にする場合は例外が発生
-  def testBankerHasNotJoinedGameError
-    player1 = StabPlayer.new
-    player2 = StabPlayer.new
-    player3 = StabPlayer.new
-
-    game = ChinChin::Game.new(player1, player2)
-
-    # exception class
-    assert_raise ChinChin::Game::NotJoinedGameError do
-      game.banker = player3
-    end
-
-    # exception message
-    assert_raise "banker has not joined game." do
-      game.banker = player3
-    end
+    game.remove_player(player1)
+    game.remove_player(player3)
+    assert_equal [player2], game.players
   end
 
   # 役作りの結果を検証(賽を投じた結果では無い)
@@ -178,54 +144,6 @@ class TestGame < Test::Unit::TestCase
     assert_equal :HIFUMI, result.yaku
     assert_equal(-1, result.point)
     assert_equal [[6, 6, 1], [1, 2, 3]], result.dice
-  end
-
-  # プレイヤを参加者一覧に追加する
-  # プレイヤを子の組に追加する
-  def testAddPlayer
-    player1 = StabPlayer.new
-    player2 = StabPlayer.new
-    player3 = StabPlayer.new
-
-    game = ChinChin::Game.new(player1)
-
-    game.add_player(player2)
-    game.banker = player1
-    game.add_player(player3)
-
-    # 参加者
-    assert_equal [player1, player2, player3], game.players
-
-    # 子の組
-    assert_equal [player2, player3], game.punters
-  end
-
-  # プレイヤを参加者一覧から除外する
-  # プレイヤを子の組から除外する
-  # プレイヤが親の場合は親をnilにする
-  def testRemovePlayer
-    player1 = StabPlayer.new
-    player2 = StabPlayer.new
-    player3 = StabPlayer.new
-
-    game = ChinChin::Game.new(player1, player2, player3)
-
-    game.banker = player3
-    game.remove_player(player1)
-
-    # 親
-    assert_equal player3, game.banker
-
-    game.remove_player(player3)
-
-    # 参加者
-    assert_equal [player2], game.players
-
-    # 親
-    assert_equal nil, game.banker
-
-    # 子の組
-    assert_equal [player2], game.punters
   end
 
   # 親の出目は5
