@@ -7,6 +7,12 @@ module Models
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
+    def initialize(playing_max_limit, *players)
+      super(players)
+      @playing_max_limit = playing_max_limit
+      self.count_reset
+    end
+
     # 役からポイントを返す
     #
     # @param [Symble, nil] yaku 役
@@ -32,6 +38,9 @@ module Models
     #   - キーが :punters は子の結果の組
     def play
       results = super
+
+      countup
+
       results[:punters].each do |punter_result|
         point = point_by(results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
 
@@ -58,6 +67,18 @@ module Models
     # 親をローテーションする
     def rotate_banker
       self.banker = punters[0]
+    end
+
+    def countup
+      @playing_count += 1
+    end
+
+    def count_limit_reached?
+      @playing_count >= @playing_max_limit
+    end
+
+    def count_reset
+      @playing_count = 0
     end
   end
 end

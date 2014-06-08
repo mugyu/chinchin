@@ -20,13 +20,21 @@ module GameBuilder
       punter1 = ChinChin::Player.new("John Doe")
       punter2 = ChinChin::Player.new("Richard Roe")
       punter3 = ChinChin::Player.new("Mario Rossi")
-      @game = Models::PlayingGame.new(banker, punter1, punter2, punter3)
+      @game = Models::PlayingGame.new(10, banker, punter1, punter2, punter3)
       @game.banker = banker
       @game
     end
 
     def game
       @game ||= new_game
+    end
+
+    def result=(result)
+      @result = result
+    end
+
+    def result
+      @result
     end
   end
 
@@ -40,6 +48,15 @@ module GameBuilder
     self.class.new_game
   end
 
+  # syntax suger for `self.class.result`
+  def result
+    self.class.result
+  end
+
+  # syntax suger for `self.class.result=(result)`
+  def result=(result)
+    self.class.result = result
+  end
 end
 
 class App < Sinatra::Base
@@ -71,6 +88,11 @@ class App < Sinatra::Base
   end
 
   get "/play" do
-    erb :play, :locals => {game_results: game.play}
+    if game.count_limit_reached?
+      erb :finish, :locals => {game_results: self.result}
+    else
+      self.result = game.play
+      erb :play, :locals => {game_results: self.result}
+    end
   end
 end
