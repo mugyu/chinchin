@@ -69,14 +69,17 @@ module Models
       self.banker = punters[0]
     end
 
+    # ゲームの継続回数をカウントアップ
     def countup
       @playing_count += 1
     end
 
+    # ゲームの継続回数が上限に達したか?
     def count_limit_reached?
       @playing_count >= @playing_max_limit
     end
 
+    # ゲームの継続回数を初期値に戻す
     def count_reset
       @playing_count = 0
     end
