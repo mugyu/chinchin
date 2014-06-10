@@ -7,9 +7,10 @@ module Models
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
-    def initialize(playing_max_limit, tokens_lower_limit, *players)
+    def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit, *players)
       super(players)
       @playing_max_limit = playing_max_limit
+      @tokens_upper_limit = tokens_upper_limit
       @tokens_lower_limit = tokens_lower_limit
       self.count_reset
     end
@@ -83,6 +84,11 @@ module Models
     # ゲームの継続回数を初期値に戻す
     def count_reset
       @playing_count = 0
+    end
+
+    # 何れかのプレイヤーのトークンが上限に達した
+    def tokens_is_upper_limit_reahed?
+      players.any? {|player| player.tokens > @tokens_upper_limit}
     end
 
     # 何れかのプレイヤーのトークンが下限に達した
