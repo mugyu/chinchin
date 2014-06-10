@@ -20,7 +20,7 @@ module GameBuilder
       punter1 = ChinChin::Player.new("John Doe")
       punter2 = ChinChin::Player.new("Richard Roe")
       punter3 = ChinChin::Player.new("Mario Rossi")
-      @game = Models::PlayingGame.new(10, banker, punter1, punter2, punter3)
+      @game = Models::PlayingGame.new(10, 0, banker, punter1, punter2, punter3)
       @game.banker = banker
       @game
     end
@@ -88,11 +88,15 @@ class App < Sinatra::Base
   end
 
   get "/play" do
-    if game.count_limit_reached?
+    if game.count_limit_reached? || game.tokens_is_lower_limit_reahed?
       erb :finish, :locals => {game_results: self.result}
     else
       self.result = game.play
-      erb :play, :locals => {game_results: self.result}
+      if game.tokens_is_lower_limit_reahed?
+        erb :finish, :locals => {game_results: self.result}
+      else
+        erb :play, :locals => {game_results: self.result}
+      end
     end
   end
 end
