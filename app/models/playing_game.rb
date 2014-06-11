@@ -9,7 +9,13 @@ module Models
 
     def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit, *players)
       super(players)
-      @playing_max_limit = playing_max_limit
+      if playing_max_limit.is_a? Hash
+        @playing_max_limit = playing_max_limit[:value]
+        @starting_player = playing_max_limit[:player]
+      else
+        @playing_max_limit = playing_max_limit
+        @starting_player = nil
+      end
       @tokens_upper_limit = tokens_upper_limit
       @tokens_lower_limit = tokens_lower_limit
       self.count_reset
@@ -41,7 +47,9 @@ module Models
     def play
       results = super
 
-      countup
+      if @starting_player.nil?
+        countup
+      end
 
       results[:punters].each do |punter_result|
         point = point_by(results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
@@ -69,6 +77,9 @@ module Models
     # 親をローテーションする
     def rotate_banker
       self.banker = punters[0]
+      if @starting_player == self.banker
+        countup
+      end
     end
 
     # ゲームの継続回数をカウントアップ
