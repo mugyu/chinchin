@@ -93,7 +93,7 @@ class App < Sinatra::Base
   end
 
   get "/play" do
-    if game.count_limit_reached? || game.tokens_is_lower_limit_reahed?
+    if game.count_limit_reached?
       erb :finish, :locals => {game_results: self.result}
     else
       self.result = game.play
