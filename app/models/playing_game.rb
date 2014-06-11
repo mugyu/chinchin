@@ -18,7 +18,7 @@ module Models
       end
       @tokens_upper_limit = tokens_upper_limit
       @tokens_lower_limit = tokens_lower_limit
-      self.count_reset
+      self.counter_reset
     end
 
     # 役からポイントを返す
@@ -84,17 +84,17 @@ module Models
 
     # ゲームの継続回数をカウントアップ
     def countup
-      @playing_count += 1
+      @playing_counter += 1
     end
 
     # ゲームの継続回数が上限に達したか?
-    def count_limit_reached?
-      @playing_count >= @playing_max_limit
+    def counter_limit_reached?
+      @playing_counter >= @playing_max_limit
     end
 
     # ゲームの継続回数を初期値に戻す
-    def count_reset
-      @playing_count = 0
+    def counter_reset
+      @playing_counter = 0
     end
 
     # 何れかのプレイヤーのトークンが上限に達した
