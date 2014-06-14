@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-require 'chinchin/dice'
+require "chinchin/dice"
 
 module ChinChin
-
   # プレイヤを表すクラス
   class Player
-
     # 名前を返す
     attr_reader :name
 
@@ -20,12 +18,13 @@ module ChinChin
     #   実質的にはChinChin::Resultが定義されます
     def initialize(name, result_klass = nil)
       @name = name
-      if result_klass
-        @Reslut_klass = result_klass
-      else
-        require 'chinchin/result'
-        @Reslut_klass = ChinChin::Result
-      end
+      @reslut_klass =
+        if result_klass
+          result_klass
+        else
+          require "chinchin/result"
+          ChinChin::Result
+        end
       @dice_set = [Dice.new, Dice.new, Dice.new]
       @tokens = 100
     end
@@ -35,7 +34,7 @@ module ChinChin
     # ChinChin::Game は #cast を持つものをプレイヤクラスとみなす
     # @return 結果クラスのインスタンス
     def cast
-      @Reslut_klass.new(@dice_set.map{|dice| dice.cast})
+      @reslut_klass.new(@dice_set.map { |dice| dice.cast })
     end
 
     # トークンを増やす

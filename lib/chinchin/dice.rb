@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 module ChinChin
-
   # 正六面体ダイスを表すクラス
   class Dice
-
-    def initialize()
+    def initialize
       @pips_set = [1, 2, 3, 4, 5, 6]
     end
 

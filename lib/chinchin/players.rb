@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 module ChinChin
-
   # プレイヤの集合を制御するクラス
   class Players
-
     # 例外クラス:
     # 親を決定する際、親がプレイヤーズに参加していない場合に発生する
     class NotJoinedPlayersError < TypeError; end
@@ -55,7 +53,7 @@ module ChinChin
     def banker=(player)
       validate_banker(player)
       if @banker
-        @punters = @punters - [player]
+        @punters -= [player]
         @punters << @banker
       else
         @punters = @players - [player]
@@ -80,8 +78,8 @@ module ChinChin
     #
     # @param player プレイヤ
     def remove_player(player)
-      @players = @players - [player]
-      @punters = @punters - [player]
+      @players -= [player]
+      @punters -= [player]
       @banker = nil if @banker == player
     end
 
@@ -95,7 +93,7 @@ module ChinChin
     # @return [Array<#cast>] プレイヤの集合
     # @raise [NotPlayerError]
     def validate_players(players)
-      players.each{|player| validate_player(player)}
+      players.each { |player| validate_player(player) }
     end
 
     # プレイヤの検証
@@ -107,8 +105,8 @@ module ChinChin
     # @raise [NotPlayerError]
     def validate_player(player)
       unless player.respond_to? :cast
-        raise NotPlayerError,
-          "This is not player object. cast method is necessary."
+        fail NotPlayerError,
+             "This is not player object. cast method is necessary."
       end
       player
     end
@@ -123,10 +121,8 @@ module ChinChin
     #   パラメータの player がゲームに参加していない場合は、
     #   例外が発生する
     def validate_banker(player)
-      unless @players.include? player
-        raise NotJoinedPlayersError,
-          "banker has not joined game."
-      end
+      fail NotJoinedPlayersError,
+           "banker has not joined game." unless @players.include? player
     end
   end
 end

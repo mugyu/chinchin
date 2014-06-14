@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
-require 'chinchin/players'
+require "chinchin/players"
 
 module ChinChin
-
   # ゲームを制御するクラス
   class Game
-
     # Game#play の結果を表すクラス
     class Result
-
       attr_reader :player, :yaku, :point, :dice
 
       # @param [#cast]   player プレイヤ
@@ -128,9 +125,7 @@ module ChinChin
           break
         end
 
-        if play_result.point < cast_result.point
-          play_result = cast_result
-        end
+        play_result = cast_result if play_result.point < cast_result.point
 
         cast_result = player.cast if @cast_times > number
       end
@@ -140,7 +135,6 @@ module ChinChin
 
     # 勝負を行う
     def play
-
       # 親が役を作り、続いて子の組がそれぞれ役を作る。
       # そして、それぞれの子と親とがお互いの役および出目を比較し
       # 勝敗を判定する。
@@ -148,8 +142,8 @@ module ChinChin
       # 子は役を作らず、その時点で勝敗が決する
       banker_result = make_banker
 
-      {banker:  banker_result,
-       punters: play_punters(banker_result)}
+      { banker:  banker_result,
+        punters: play_punters(banker_result) }
     end
 
     private
@@ -166,8 +160,8 @@ module ChinChin
     # @param [Result] banker_result 親の役および出目
     # @return [Array<Result>] 子の組の役および出目
     def play_punters(banker_result)
-      punters.inject([]) do |match_results, punter|
-        if judged = judge(banker_result)
+      punters.reduce([]) do |match_results, punter|
+        if (judged = judge(banker_result))
           match_results << Result.new(punter).outcome(judged)
         else
           punter_result = make(punter)
