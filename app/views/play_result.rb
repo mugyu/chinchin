@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+
 module Views
-  module Play_result
+  # プレイ結果を表示
+  module PlayResult
     def play_result(result)
       erb :play_result, locals: {
         name: result.player.name,

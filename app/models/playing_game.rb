@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-require 'chinchin/game'
+require "chinchin/game"
 
 module Models
+  # アプリケーション用 拡張Gameクラス
   class PlayingGame < ChinChin::Game
-
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
-    def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit, *players)
+    def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit,
+                   *players)
       super(players)
       if playing_max_limit.is_a? Hash
         @playing_max_limit = playing_max_limit[:value]
@@ -18,7 +19,7 @@ module Models
       end
       @tokens_upper_limit = tokens_upper_limit
       @tokens_lower_limit = tokens_lower_limit
-      self.counter_reset
+      counter_reset
     end
 
     # 役からポイントを返す
@@ -47,12 +48,11 @@ module Models
     def play
       results = super
 
-      if @starting_player.nil?
-        countup
-      end
+      countup if @starting_player.nil?
 
       results[:punters].each do |punter_result|
-        point = point_by(results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
+        point = point_by(
+          results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
 
         case punter_result.outcome
         when ChinChin::Game::WIN
@@ -77,9 +77,7 @@ module Models
     # 親をローテーションする
     def rotate_banker
       self.banker = punters[0]
-      if @starting_player == self.banker
-        countup
-      end
+      countup if @starting_player == banker
     end
 
     # ゲームの継続回数をカウントアップ
@@ -99,12 +97,12 @@ module Models
 
     # 何れかのプレイヤーのトークンが上限に達した
     def tokens_is_upper_limit_reahed?
-      players.any? {|player| player.tokens > @tokens_upper_limit}
+      players.any? { |player| player.tokens > @tokens_upper_limit }
     end
 
     # 何れかのプレイヤーのトークンが下限に達した
     def tokens_is_lower_limit_reahed?
-      players.any? {|player| player.tokens < @tokens_lower_limit}
+      players.any? { |player| player.tokens < @tokens_lower_limit }
     end
   end
 end

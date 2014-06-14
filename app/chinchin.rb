@@ -1,8 +1,8 @@
-##!/usr/bin/env ruby
+#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
-require 'chinchin/game'
-require 'chinchin/player'
+require "chinchin/game"
+require "chinchin/player"
 
 DEFAULT_POINT = 5
 
@@ -25,23 +25,26 @@ def view(result)
     point = result.yaku ? result.yaku : result.point
     dice = result.dice.inspect
 
-    printf "%3d %6s: #{result.player.name} <#{point}> #{dice}\n", result.player.tokens, head
+    printf "%3d %6s: #{result.player.name} <#{point}> #{dice}\n",
+           result.player.tokens, head
   else
-    printf "%3d %6s: #{result.player.name}\n", result.player.tokens, result.outcome
+    printf "%3d %6s: #{result.player.name}\n",
+           result.player.tokens, result.outcome
   end
 end
 
 def play(game)
   results = game.play
   results[:punters].each do |result|
-    point = point_by(results[:banker].yaku ? results[:banker].yaku : result.yaku)
+    point = point_by(
+      results[:banker].yaku ? results[:banker].yaku : result.yaku)
 
     case result.outcome
     when ChinChin::Game::WIN
-      game.banker.decrement_tokens   point
+      game.banker.decrement_tokens point
       result.player.increment_tokens point
     when ChinChin::Game::LOST
-      game.banker.increment_tokens   point
+      game.banker.increment_tokens point
       result.player.decrement_tokens point
     else
     end

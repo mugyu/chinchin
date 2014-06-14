@@ -17,7 +17,7 @@ end
 
 desc 'Run RuboCop on the lib directory'
 RuboCop::RakeTask.new(:rubocop) do |t|
-  t.patterns = ['lib/**/*.rb']
+  t.patterns = ['lib/**/*.rb', 'app/**/*.rb']
 end
 
 desc "make yard"

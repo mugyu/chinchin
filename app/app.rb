@@ -1,27 +1,31 @@
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 $LOAD_PATH.unshift File.dirname(__FILE__)
-require 'sinatra/base'
-require 'sinatra/reloader'
+require "sinatra/base"
+require "sinatra/reloader"
 
-require 'chinchin/player'
+require "chinchin/player"
 
-require 'views/play_result'
-require 'models/playing_game'
+require "views/play_result"
+require "models/playing_game"
 
+# Game Object 生成
 module GameBuilder
   def self.included(base)
-    base.extend ClassMethods_
+    base.extend ClassMethods
   end
 
-  module ClassMethods_
+  # extend class methods
+  module ClassMethods
+    attr_accessor :result
+
     def new_game
       banker  = ChinChin::Player.new("Alan Smithee")
       punter1 = ChinChin::Player.new("John Doe")
       punter2 = ChinChin::Player.new("Richard Roe")
       punter3 = ChinChin::Player.new("Mario Rossi")
       @game = Models::PlayingGame.new(
-        {value: 3, player: banker},
+        { value: 3, player: banker },
         200,
         0,
         banker, punter1, punter2, punter3
@@ -32,14 +36,6 @@ module GameBuilder
 
     def game
       @game ||= new_game
-    end
-
-    def result=(result)
-      @result = result
-    end
-
-    def result
-      @result
     end
   end
 
@@ -64,8 +60,8 @@ module GameBuilder
   end
 end
 
+# チンチロリン アプリケーション
 class App < Sinatra::Base
-
   set :public_folder, File.expand_path(File.join(root, "..", "public"))
 
   configure :development do
@@ -84,7 +80,7 @@ class App < Sinatra::Base
 
   TITLE = :ChinChin
 
-  helpers Views::Play_result
+  helpers Views::PlayResult
   helpers GameBuilder
 
   get "/" do
@@ -94,14 +90,14 @@ class App < Sinatra::Base
 
   get "/play" do
     if game.counter_limit_reached?
-      erb :finish, :locals => {game_results: self.result}
+      erb :finish, locals: { game_results: result }
     else
       self.result = game.play
-      if game.tokens_is_upper_limit_reahed? or
+      if game.tokens_is_upper_limit_reahed? ||
          game.tokens_is_lower_limit_reahed?
-        erb :finish, :locals => {game_results: self.result}
+        erb :finish, locals: { game_results: result }
       else
-        erb :play, :locals => {game_results: self.result}
+        erb :play, locals: { game_results: result }
       end
     end
   end
