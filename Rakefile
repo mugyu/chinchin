@@ -2,8 +2,9 @@
 require 'rake/testtask'
 require 'yard'
 require 'yard/rake/yardoc_task'
+require 'rubocop/rake_task'
 
-task :default => [:test, :yard]
+task :default => [:test, :rubocop, :yard]
 
 SOURCE_FILES = FileList.new('./lib/**/*.rb', './app/**/*.rb')
 
@@ -12,6 +13,11 @@ Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList["test/test_*.rb"]
   t.verbose = true
+end
+
+desc 'Run RuboCop on the lib directory'
+RuboCop::RakeTask.new(:rubocop) do |t|
+  t.patterns = ['lib/**/*.rb']
 end
 
 desc "make yard"
