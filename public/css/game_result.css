@@ -1,0 +1,33 @@
+.game_result {
+  border: 1px solid #C0C0C0;
+  width: 350px;
+}
+
+.game_result .label {
+  font-size: 12px;
+  width: 60px;
+}
+
+.game_result .value {
+  font-size: 12px;
+  min-width: 60px;
+}
+
+.game_result .name {
+  background-color: #B09090;
+  color: white;
+  padding: 0.5em;
+  width: 200px;
+}
+.game_result .name div {
+  display: inline-block;
+}
+
+.game_result .tokens {
+  display: inline-block;
+  padding: 0.5em;
+}
+
+.game_result div {
+  display: inline-block;
+}
