@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require "chinchin/game"
+require "chinchin/result"
 
 module Models
   # アプリケーション用 拡張Gameクラス
