@@ -1,6 +1,11 @@
-# coding: utf-8
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../app"
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+test_dir = File.dirname(__FILE__)
+lib = File.expand_path("../lib", test_dir)
+app = File.expand_path("../app", test_dir)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH.unshift(app) unless $LOAD_PATH.include?(app)
 require "test/unit"
 require "models/playing_game"
 

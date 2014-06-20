@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+lib = File.expand_path("../lib", File.dirname(__FILE__))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'test/unit'
 require 'chinchin/game'
 

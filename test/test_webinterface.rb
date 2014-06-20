@@ -1,11 +1,15 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/.."
+ENV["RACK_ENV"] = "test"
+
+test_dir = File.dirname(__FILE__)
+root = File.expand_path("..", test_dir)
+lib = File.expand_path("../lib", test_dir)
+$LOAD_PATH.unshift(root) unless $LOAD_PATH.include?(root)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "test/unit"
 require "rack/test"
-p pwd
 require "app/app"
 
 # Web Interface Test
