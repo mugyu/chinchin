@@ -1,8 +1,4 @@
-Style/AsciiComments:
-  Enabled: false
-
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
+inherit_from: ../.rubocop.yml
 
 Style/ClassLength:
   Max: 10000
