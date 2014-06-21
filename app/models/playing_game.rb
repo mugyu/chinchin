@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
+require "forwardable"
 require "chinchin/game"
 require "chinchin/result"
 
 module Models
   # アプリケーション用 拡張Gameクラス
-  class PlayingGame < ChinChin::Game
+  class PlayingGame
+    extend Forwardable
+    def_delegators :@game, :players, :punters, :banker, :banker=
+
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
     def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit,
                    *players)
-      super(players)
+      @game = ChinChin::Game.new(players)
       if playing_max_limit.is_a? Hash
         @playing_max_limit = playing_max_limit[:value]
         @starting_player = playing_max_limit[:player]
@@ -47,7 +51,7 @@ module Models
     #   - キーが :bunker は親の結果
     #   - キーが :punters は子の結果の組
     def play
-      results = super
+      results = @game.play
 
       countup if @starting_player.nil?
 
@@ -98,12 +102,12 @@ module Models
 
     # 何れかのプレイヤーのトークンが上限に達した
     def tokens_is_upper_limit_reahed?
-      players.any? { |player| player.tokens > @tokens_upper_limit }
+      @game.players.any? { |player| player.tokens > @tokens_upper_limit }
     end
 
     # 何れかのプレイヤーのトークンが下限に達した
     def tokens_is_lower_limit_reahed?
-      players.any? { |player| player.tokens < @tokens_lower_limit }
+      @game.players.any? { |player| player.tokens < @tokens_lower_limit }
     end
   end
 end
