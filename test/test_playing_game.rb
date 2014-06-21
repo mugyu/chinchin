@@ -7,6 +7,7 @@ app = File.expand_path("../app", test_dir)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 $LOAD_PATH.unshift(app) unless $LOAD_PATH.include?(app)
 require "test/unit"
+require "chinchin/players"
 require "chinchin/game"
 require "models/playing_game"
 
@@ -29,7 +30,8 @@ class TestPlayingGame < Test::Unit::TestCase
     @player1 = StabPlayer.new
     @player2 = StabPlayer.new
     @player3 = StabPlayer.new
-    game = ChinChin::Game.new(@player1, @player2, @player3)
+    players = ChinChin::Players.new(@player1, @player2, @player3)
+    game = ChinChin::Game.new(players)
     @game = Models::PlayingGame.new(game, 3, 200, 0)
   end
 

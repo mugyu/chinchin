@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require "chinchin/players"
-
 module ChinChin
   # ゲームを制御するクラス
   class Game
@@ -70,8 +68,8 @@ module ChinChin
     #   @param [#cast] *players 可変長引数に個々のプレイヤを設定する
     #
     # @see ChinChin::Players#initialize
-    def initialize(*players)
-      @players = ChinChin::Players.new(players.flatten)
+    def initialize(players)
+      @players = players
       @punters = []
       @banker = nil
       @cast_times = 3

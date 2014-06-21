@@ -5,6 +5,7 @@ lib = File.expand_path("../lib", File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "test/unit"
 require "chinchin/game"
+require "chinchin/players"
 
 # test/unit game class
 class TestGame < Test::Unit::TestCase
@@ -49,11 +50,11 @@ class TestGame < Test::Unit::TestCase
     player2 = StabPlayer.new
     player3 = StabPlayer.new
 
-    game = ChinChin::Game.new(player1, player2)
+    game = ChinChin::Game.new(ChinChin::Players.new(player1, player2))
     assert_equal [player1, player2], game.players
     assert_not_equal [player1, player3], game.players
 
-    game = ChinChin::Game.new([player1, player2, player3])
+    game = ChinChin::Game.new(ChinChin::Players.new(player1, player2, player3))
     assert_equal [player1, player2, player3], game.players
   end
 
@@ -62,8 +63,9 @@ class TestGame < Test::Unit::TestCase
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
+    players = ChinChin::Players.new(player1, player2, player3)
 
-    game = ChinChin::Game.new(player1, player2, player3)
+    game = ChinChin::Game.new(players)
     game.banker = player2
     assert_same player2, game.banker
   end
@@ -73,8 +75,9 @@ class TestGame < Test::Unit::TestCase
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
+    players = ChinChin::Players.new(player1)
 
-    game = ChinChin::Game.new(player1)
+    game = ChinChin::Game.new(players)
     game.add_player(player2)
     game.add_player(player3)
     assert_equal [player1, player2, player3], game.players
@@ -85,8 +88,9 @@ class TestGame < Test::Unit::TestCase
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
+    players = ChinChin::Players.new(player1, player2, player3)
 
-    game = ChinChin::Game.new(player1, player2, player3)
+    game = ChinChin::Game.new(players)
     game.remove_player(player1)
     game.remove_player(player3)
     assert_equal [player2], game.players
@@ -100,7 +104,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 0, [2, 4, 5]],
       [nil, 0, [3, 4, 5]]
     ])
-    game = ChinChin::Game.new(nothing_and_0)
+    game = ChinChin::Game.new(ChinChin::Players.new(nothing_and_0))
     result = game.make(nothing_and_0)
     assert_equal nothing_and_0, result.player
     assert_equal nil, result.yaku
@@ -113,7 +117,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 2, [2, 4, 4]],
       [nil, 0, [1, 3, 6]]
     ])
-    game = ChinChin::Game.new(nothing_and_2)
+    game = ChinChin::Game.new(ChinChin::Players.new(nothing_and_2))
     result = game.make(nothing_and_2)
     assert_equal nothing_and_2, result.player
     assert_equal nil, result.yaku
@@ -126,7 +130,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 4, [2, 4, 2]],
       [nil, 3, [3, 1, 1]]
     ])
-    game = ChinChin::Game.new(nothing_and_5)
+    game = ChinChin::Game.new(ChinChin::Players.new(nothing_and_5))
     result = game.make(nothing_and_5)
     assert_equal nothing_and_5, result.player
     assert_equal nil, result.yaku
@@ -139,7 +143,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 1, [6, 6, 1]],
       [:HIFUMI, -1, [1, 2, 3]]
     ])
-    game = ChinChin::Game.new(hifumi)
+    game = ChinChin::Game.new(ChinChin::Players.new(hifumi))
     result = game.make(hifumi)
     assert_equal hifumi, result.player
     assert_equal :HIFUMI, result.yaku
@@ -171,8 +175,9 @@ class TestGame < Test::Unit::TestCase
       [nil, 3, [3, 1, 1]],
       [nil, 5, [4, 4, 5]]
     ])
+    players = ChinChin::Players.new(banker, punter1, punter2, punter3)
 
-    game = ChinChin::Game.new(banker, punter1, punter2, punter3)
+    game = ChinChin::Game.new(players)
     game.banker = banker
     results = game.play
 
@@ -208,8 +213,9 @@ class TestGame < Test::Unit::TestCase
       [nil, 4, [2, 4, 2]],
       [nil, 3, [3, 1, 1]]
     ])
+    players = ChinChin::Players.new(banker, punter1, punter2)
 
-    game = ChinChin::Game.new(banker, punter1, punter2)
+    game = ChinChin::Game.new(players)
     game.banker = banker
     results = game.play
 

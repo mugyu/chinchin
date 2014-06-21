@@ -15,8 +15,9 @@ module GameBuilder
       punter1 = ChinChin::Player.new("John Doe")
       punter2 = ChinChin::Player.new("Richard Roe")
       punter3 = ChinChin::Player.new("Mario Rossi")
+      players = ChinChin::Players.new(banker, punter1, punter2, punter3)
       @game = Models::PlayingGame.new(
-        ChinChin::Game.new(banker, punter1, punter2, punter3),
+        ChinChin::Game.new(players),
         { value: 3, player: banker },
         200, 0
       )
