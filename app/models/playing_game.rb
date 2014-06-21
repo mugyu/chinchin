@@ -12,9 +12,10 @@ module Models
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
-    def initialize(playing_max_limit, tokens_upper_limit, tokens_lower_limit,
-                   *players)
-      @game = ChinChin::Game.new(players)
+    def initialize(game,
+                   playing_max_limit,
+                   tokens_upper_limit, tokens_lower_limit)
+      @game = game
       if playing_max_limit.is_a? Hash
         @playing_max_limit = playing_max_limit[:value]
         @starting_player = playing_max_limit[:player]
