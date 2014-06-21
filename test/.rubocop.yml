@@ -1,0 +1,11 @@
+Style/AsciiComments:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/ClassLength:
+  Max: 10000
+
+Style/MethodLength:
+  Max: 1000

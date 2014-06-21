@@ -3,19 +3,20 @@
 
 lib = File.expand_path("../lib", File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'test/unit'
-require 'chinchin/dice'
+require "test/unit"
+require "chinchin/dice"
 
+# test/unit dice class
 class TestDice < Test::Unit::TestCase
   def setup
     @dice = ChinChin::Dice.new
   end
 
-  def testCast
+  def test_cast
     assert_kind_of Integer, @dice.cast
   end
 
-  def testCastPhony
+  def test_cast_phony
     assert_equal 1, @dice.cast(0)
     assert_equal 2, @dice.cast(1)
     assert_equal 3, @dice.cast(2)

@@ -3,11 +3,11 @@
 
 lib = File.expand_path("../lib", File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'test/unit'
-require 'chinchin/players'
+require "test/unit"
+require "chinchin/players"
 
+# test/unit players class
 class TestPlayers < Test::Unit::TestCase
-
   # プレイヤ用スタブ
   class StabPlayer
     def cast
@@ -19,7 +19,7 @@ class TestPlayers < Test::Unit::TestCase
   class StabNotPlayer; end
 
   # 参加者が登録したとおりである
-  def testPlayers
+  def test_players
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -33,24 +33,24 @@ class TestPlayers < Test::Unit::TestCase
   end
 
   # castメソッドを持たないモノを参加者させようとした場合、例外が発生
-  def testNotPlayerObjectError
+  def test_not_player_object_error
     player1 = StabPlayer.new
     player2 = StabPlayer.new
-    notPlayer = StabNotPlayer.new
+    not_player = StabNotPlayer.new
 
     # exception class
     assert_raise ChinChin::Players::NotPlayerError do
-      ChinChin::Players.new(player1, player2, notPlayer)
+      ChinChin::Players.new(player1, player2, not_player)
     end
 
     # exception message
     assert_raise "This is not player object. cast method is necessary." do
-      ChinChin::Players.new(player1, player2, notPlayer)
+      ChinChin::Players.new(player1, player2, not_player)
     end
   end
 
   # 親(Banker)の設定と参照
-  def testSetBanker
+  def test_set_banker
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -67,7 +67,7 @@ class TestPlayers < Test::Unit::TestCase
   end
 
   # 親(Banker)が決まったら、その他の参加者が子の組(punters)になる
-  def testPunters
+  def test_punters
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -83,7 +83,7 @@ class TestPlayers < Test::Unit::TestCase
   end
 
   # ゲームに参加していないモノを親にする場合は例外が発生
-  def testBankerHasNotPlayersError
+  def test_banker_has_not_players_error
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new

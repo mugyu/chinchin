@@ -3,11 +3,11 @@
 
 lib = File.expand_path("../lib", File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'test/unit'
-require 'chinchin/game'
+require "test/unit"
+require "chinchin/game"
 
+# test/unit game class
 class TestGame < Test::Unit::TestCase
-
   # プレイヤ用スタブ
   class StabPlayer
     def cast
@@ -20,8 +20,8 @@ class TestGame < Test::Unit::TestCase
 
   # 結果をコントロールできるチーター
   class StabCheatPlayer
+    # 結果クラス
     class Result
-
       attr_reader :yaku, :point, :dice
 
       def initialize(yaku, point, dice)
@@ -44,7 +44,7 @@ class TestGame < Test::Unit::TestCase
   end
 
   # 参加者が登録したとおりである
-  def testPlayers
+  def test_players
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -58,7 +58,7 @@ class TestGame < Test::Unit::TestCase
   end
 
   # 親(Banker)の設定と参照
-  def testSetBanker
+  def test_set_banker
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -69,7 +69,7 @@ class TestGame < Test::Unit::TestCase
   end
 
   # プレイヤを参加者一覧に追加する
-  def testAddPlayer
+  def test_add_player
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -81,7 +81,7 @@ class TestGame < Test::Unit::TestCase
   end
 
   # プレイヤを参加者一覧から除外する
-  def testRemovePlayer
+  def test_remove_player
     player1 = StabPlayer.new
     player2 = StabPlayer.new
     player3 = StabPlayer.new
@@ -93,7 +93,7 @@ class TestGame < Test::Unit::TestCase
   end
 
   # 役作りの結果を検証(賽を投じた結果では無い)
-  def testMake
+  def test_make
     # 目なしの場合
     nothing_and_0 = StabCheatPlayer.new([
       [nil, 0, [1, 4, 5]],
@@ -137,7 +137,7 @@ class TestGame < Test::Unit::TestCase
     # 役が出来た時点で決する為、二投で終わり
     hifumi = StabCheatPlayer.new([
       [nil, 1, [6, 6, 1]],
-      [:HIFUMI, -1, [1, 2, 3]],
+      [:HIFUMI, -1, [1, 2, 3]]
     ])
     game = ChinChin::Game.new(hifumi)
     result = game.make(hifumi)
@@ -152,7 +152,7 @@ class TestGame < Test::Unit::TestCase
   # - 出目が3の負け
   # - 役がシゴロの勝ち
   # - 出目が5の引き分け
-  def testPlay
+  def test_play
     banker = StabCheatPlayer.new([
       [nil, 5, [4, 4, 5]],
       [nil, 4, [2, 4, 2]],
@@ -164,7 +164,7 @@ class TestGame < Test::Unit::TestCase
       [nil, 3, [6, 6, 3]]
     ])
     punter2 = StabCheatPlayer.new([
-      [:SIGORO, 10, [6, 4, 5]],
+      [:SIGORO, 10, [6, 4, 5]]
     ])
     punter3 = StabCheatPlayer.new([
       [nil, 4, [2, 4, 2]],
@@ -194,7 +194,7 @@ class TestGame < Test::Unit::TestCase
 
   # 親の役がアラシなので子は無条件で負け
   # 子の結果が無し
-  def testPlayBankerWithARASHI
+  def test_play_banker_with_arashi
     banker = StabCheatPlayer.new([
       [:ARASHI, 11, [1, 1, 1]]
     ])
