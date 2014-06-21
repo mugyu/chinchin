@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-require 'rake/testtask'
-require 'yard'
-require 'yard/rake/yardoc_task'
-require 'rubocop/rake_task'
+require "rake/testtask"
+require "yard"
+require "yard/rake/yardoc_task"
+require "rubocop/rake_task"
 
-task :default => [:test, :rubocop, :yard]
+task default: [:test, :rubocop, :yard]
 
-SOURCE_FILES = FileList.new('./lib/**/*.rb', './app/**/*.rb')
+SOURCE_FILES = FileList.new("./lib/**/*.rb", "./app/**/*.rb")
 
 desc "test/unit"
 Rake::TestTask.new do |t|
@@ -15,15 +15,13 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-desc 'Run RuboCop on the lib directory'
+desc "Run RuboCop on the lib directory"
 RuboCop::RakeTask.new(:rubocop) do |t|
-  t.patterns = ['lib/**/*.rb', 'app/**/*.rb']
+  t.patterns = ["lib/**/*.rb", "app/**/*.rb", "test/**/*.rb"]
 end
 
 desc "make yard"
 YARD::Rake::YardocTask.new do |t|
   t.files = SOURCE_FILES
-  if Rake.application.options.trace
-    t.options = ['--debug', '--verbose']
-  end
+  t.options = %w(--debug --verbose) if Rake.application.options.trace
 end
