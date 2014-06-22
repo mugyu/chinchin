@@ -4,11 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require "sinatra/base"
 require "sinatra/reloader"
 
-require "chinchin/player"
-require "chinchin/players"
-
 require "views/play_result"
-require "models/playing_game"
 require "game_builder"
 
 # チンチロリン アプリケーション

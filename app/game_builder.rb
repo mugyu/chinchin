@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+require "chinchin/player"
+require "chinchin/players"
+require "models/playing_game"
 
 # Game Object 生成
 module GameBuilder
