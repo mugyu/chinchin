@@ -1,18 +1,21 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+require "chinchin/constants"
 require "chinchin/game"
 require "chinchin/player"
 
 DEFAULT_POINT = 5
 
+include ChinChin::Constants
+
 def point_by(yaku)
   case yaku
-  when ChinChin::Result::ARASHI
+  when Yaku::ARASHI
     DEFAULT_POINT * 3
-  when ChinChin::Result::SHIGORO
+  when Yaku::SHIGORO
     DEFAULT_POINT * 2
-  when ChinChin::Result::HIFUMI
+  when Yaku::HIFUMI
     DEFAULT_POINT * 2
   else
     DEFAULT_POINT
@@ -40,10 +43,10 @@ def play(game)
       results[:banker].yaku ? results[:banker].yaku : result.yaku)
 
     case result.outcome
-    when ChinChin::Game::WIN
+    when Outcome::WIN
       game.banker.decrement_tokens point
       result.player.increment_tokens point
-    when ChinChin::Game::LOST
+    when Outcome::LOST
       game.banker.increment_tokens point
       result.player.decrement_tokens point
     else

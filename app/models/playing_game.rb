@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require "forwardable"
+require "chinchin/constants"
 require "chinchin/game"
 require "chinchin/result"
 
@@ -7,6 +8,7 @@ module Models
   # アプリケーション用 拡張Gameクラス
   class PlayingGame
     extend Forwardable
+    include ChinChin::Constants
 
     # @!method players
     #   @see ChinChin::Game#players
@@ -43,11 +45,11 @@ module Models
     # @return [integer] 役を評価して得たポイント
     def point_by(yaku)
       case yaku
-      when ChinChin::Result::ARASHI
+      when Yaku::ARASHI
         DEFAULT_POINT * 3
-      when ChinChin::Result::SHIGORO
+      when Yaku::SHIGORO
         DEFAULT_POINT * 2
-      when ChinChin::Result::HIFUMI
+      when Yaku::HIFUMI
         DEFAULT_POINT * 2
       else
         DEFAULT_POINT
@@ -70,10 +72,10 @@ module Models
           results[:banker].yaku ? results[:banker].yaku : punter_result.yaku)
 
         case punter_result.outcome
-        when ChinChin::Game::WIN
+        when Outcome::WIN
           banker.decrement_tokens point
           punter_result.player.increment_tokens point
-        when ChinChin::Game::LOST
+        when Outcome::LOST
           banker.increment_tokens point
           punter_result.player.decrement_tokens point
         else

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
+require "chinchin/constants"
 
 module ChinChin
   # 投じられた賽の結果を表すクラス
   class Result
-    HIFUMI = :HIFUMI
-    SHIGORO = :SHIGORO
-    ARASHI = :ARASHI
-    NOTHING = nil
+    include ChinChin::Constants::Yaku
 
     # 賽の目を返す
     #

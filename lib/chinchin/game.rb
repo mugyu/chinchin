@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 require "forwardable"
+require "chinchin/constants"
 
 module ChinChin
   # ゲームを制御するクラス
@@ -34,16 +35,8 @@ module ChinChin
       end
     end
 
-    # 勝ち
-    WIN  = :Win
-
-    # 負け
-    LOST = :Lost
-
-    # 引き分け
-    DRAW = :Draw
-
     extend Forwardable
+    include ChinChin::Constants::Outcome
 
     # @!method players
     #   @see Players#to_a
