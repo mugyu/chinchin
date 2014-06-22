@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require "forwardable"
 
 module ChinChin
   # ゲームを制御するクラス
@@ -42,25 +43,11 @@ module ChinChin
     # 引き分け
     DRAW = :Draw
 
-    # プレイヤー(参加者)全員
-    def players
-      @players.to_a
-    end
-
-    # 親プレイヤ(Banker)
-    #
-    # @return 親プレイヤ
-    # @see ChinChin::Players#banker
-    def banker
-      @players.banker
-    end
-
-    # 子の組(Punters)
-    #
-    # @see ChinChin::Players#punters
-    def punters
-      @players.punters
-    end
+    extend Forwardable
+    def_delegator :@players, :to_a, :players
+    def_delegators :@players,
+                   :punters, :banker, :banker=,
+                   :add_player, :remove_player
 
     # @overload initialize(players)
     #   @param [Array<#cast>] players ゲーム参加者を配列で設定する
@@ -73,34 +60,6 @@ module ChinChin
       @punters = []
       @banker = nil
       @cast_times = 3
-    end
-
-    # 親を決定する
-    #
-    # @see ChinChin::Players#banker
-    def banker=(player)
-      @players.banker = player
-    end
-
-    # プレイヤを参加者に追加する
-    #
-    # その際にプレイヤを子の組に追加する
-    #
-    # @param player プレイヤ
-    # @see ChinChin::Players#add_player
-    def add_player(player)
-      @players.add_player(player)
-    end
-
-    # プレイヤを参加者から除外する
-    #
-    # その際にプレイヤを子の組から除外し、
-    # プレイヤが親の場合は親をnilにする
-    #
-    # @param player プレイヤ
-    # @see ChinChin::Players#remove_player
-    def remove_player(player)
-      @players.remove_player(player)
     end
 
     # 役作りをする
