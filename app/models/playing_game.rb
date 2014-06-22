@@ -7,6 +7,15 @@ module Models
   # アプリケーション用 拡張Gameクラス
   class PlayingGame
     extend Forwardable
+
+    # @!method players
+    #   @see ChinChin::Game#players
+    # @!method punters
+    #   @see ChinChin::Game#punters
+    # @!method banker
+    #   @see ChinChin::Game#banker
+    # @!method banker=(player)
+    #   @see ChinChin::Game#banker=
     def_delegators :@game, :players, :punters, :banker, :banker=
 
     # 賭けるポイント

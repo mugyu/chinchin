@@ -44,7 +44,21 @@ module ChinChin
     DRAW = :Draw
 
     extend Forwardable
+
+    # @!method players
+    #   @see Players#to_a
     def_delegator :@players, :to_a, :players
+
+    # @!method punters
+    #   @see ChinChin::Players#punters
+    # @!method banker
+    #   @see ChinChin::Players#banker
+    # @!method banker=(player)
+    #   @see ChinChin::Players#banker=
+    # @!method add_player(player)
+    #   @see ChinChin::Players#add_player
+    # @!method remove_player(player)
+    #   @see ChinChin::Players#remove_player
     def_delegators :@players,
                    :punters, :banker, :banker=,
                    :add_player, :remove_player
