@@ -4,6 +4,7 @@ $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 require "chinchin/constants"
 require "chinchin/game"
 require "chinchin/player"
+require "chinchin/players"
 
 DEFAULT_POINT = 5
 
@@ -72,7 +73,8 @@ banker  = ChinChin::Player.new("banker")
 punter1 = ChinChin::Player.new("punter1")
 punter2 = ChinChin::Player.new("punter2")
 punter3 = ChinChin::Player.new("punter3")
-game = ChinChin::Game.new(banker, punter1, punter2, punter3)
+players = ChinChin::Players.new(banker, punter1, punter2, punter3)
+game = ChinChin::Game.new(players)
 game.banker = banker
 
 start(game)
