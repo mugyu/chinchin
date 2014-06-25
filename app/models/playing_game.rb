@@ -23,9 +23,7 @@ module Models
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
-    def initialize(game,
-                   playing_max_limit,
-                   tokens_upper_limit, tokens_lower_limit)
+    def initialize(game, playing_max_limit)
       @game = game
       if playing_max_limit.is_a? Hash
         @playing_max_limit = playing_max_limit[:value]
@@ -34,8 +32,6 @@ module Models
         @playing_max_limit = playing_max_limit
         @starting_player = nil
       end
-      @tokens_upper_limit = tokens_upper_limit
-      @tokens_lower_limit = tokens_lower_limit
       counter_reset
     end
 
@@ -110,16 +106,6 @@ module Models
     # ゲームの継続回数を初期値に戻す
     def counter_reset
       @playing_counter = 0
-    end
-
-    # 何れかのプレイヤーのトークンが上限に達した
-    def tokens_is_upper_limit_reahed?
-      @game.players.any? { |player| player.tokens > @tokens_upper_limit }
-    end
-
-    # 何れかのプレイヤーのトークンが下限に達した
-    def tokens_is_lower_limit_reahed?
-      @game.players.any? { |player| player.tokens < @tokens_lower_limit }
     end
   end
 end

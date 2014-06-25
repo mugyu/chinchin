@@ -32,7 +32,7 @@ class TestPlayingGame < Test::Unit::TestCase
     @player3 = StabPlayer.new
     players = ChinChin::Players.new(@player1, @player2, @player3)
     game = ChinChin::Game.new(players)
-    @game = Models::PlayingGame.new(game, 3, 200, 0)
+    @game = Models::PlayingGame.new(game, 3)
   end
 
   def test_play
@@ -68,21 +68,5 @@ class TestPlayingGame < Test::Unit::TestCase
     assert_false @game.counter_limit_reached?
     @game.countup
     assert_true @game.counter_limit_reached?
-  end
-
-  def test_tokens_is_upper_limit_reahed?
-    @game.players[0].tokens = 200
-    assert_false @game.tokens_is_upper_limit_reahed?
-
-    @game.players[0].tokens = 201
-    assert_true @game.tokens_is_upper_limit_reahed?
-  end
-
-  def test_tokens_is_lower_limit_reahed?
-    @game.players[0].tokens = 0
-    assert_false @game.tokens_is_lower_limit_reahed?
-
-    @game.players[0].tokens = -1
-    assert_true @game.tokens_is_lower_limit_reahed?
   end
 end
