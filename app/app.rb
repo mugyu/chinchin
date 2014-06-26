@@ -48,4 +48,14 @@ class App < Sinatra::Base
       end
     end
   end
+
+  get "/join" do
+    erb :join
+  end
+
+  post "/players" do
+    # TODO: 登録処理を作る
+    puts params[:name]
+    redirect "/", 303
+  end
 end

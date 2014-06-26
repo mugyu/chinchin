@@ -1,0 +1,15 @@
+<div class="row">
+  <form action="<%= url("/players") %>" method="post" class="form-inline col-md-12" role="form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input id="name" type="text" name="name" class="form-control" placeholder="Enter name">
+    </div>
+    <input type="submit" value="Let me join the game." class="btn btn-primary" />
+  </form>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <hr />
+    <a href="<%= url("/") %>" class="btn btn-default">Cancel</a>
+  </div>
+</div>
