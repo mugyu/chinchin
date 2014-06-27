@@ -12,21 +12,27 @@ module GameBuilder
 
   # extend class methods
   module ClassMethods
-    attr_accessor :result, :tokes_limiter
+    attr_accessor :result
+    attr_reader :tokens_limiter
 
     def new_game
-      banker  = ChinChin::Player.new("Alan Smithee")
-      punter1 = ChinChin::Player.new("John Doe")
-      punter2 = ChinChin::Player.new("Richard Roe")
-      punter3 = ChinChin::Player.new("Mario Rossi")
-      players = ChinChin::Players.new(banker, punter1, punter2, punter3)
-      @tokes_limiter = Models::LimitedNumberOfTokens.new(players, 200, 0)
+      players = new_players
+      banker = players.to_a[0]
+      @tokens_limiter = Models::LimitedNumberOfTokens.new(players, 200, 0)
       @game = Models::PlayingGame.new(
-        ChinChin::Game.new(players),
+        ChinChin::Game.new(@players),
         value: 3, player: banker
       )
       @game.banker = banker
       @game
+    end
+
+    def new_players
+      banker  = ChinChin::Player.new("Alan Smithee")
+      punter1 = ChinChin::Player.new("John Doe")
+      punter2 = ChinChin::Player.new("Richard Roe")
+      punter3 = ChinChin::Player.new("Mario Rossi")
+      ChinChin::Players.new(banker, punter1, punter2, punter3)
     end
 
     def game
@@ -56,11 +62,11 @@ module GameBuilder
 
   # syntax suger for `self.class.tokes_limiter.upper_limit_reahed?`
   def tokens_is_upper_limit_reahed?
-    self.class.tokes_limiter.upper_limit_reahed?
+    self.class.tokens_limiter.upper_limit_reahed?
   end
 
   # syntax suger for `self.class.tokes_limiter.lower_limit_reahed?`
   def tokens_is_lower_limit_reahed?
-    self.class.tokes_limiter.lower_limit_reahed?
+    self.class.tokens_limiter.lower_limit_reahed?
   end
 end
