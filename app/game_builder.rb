@@ -13,12 +13,12 @@ module GameBuilder
   # extend class methods
   module ClassMethods
     attr_accessor :result
-    attr_reader :tokens_limiter
+    attr_reader :players, :tokens_limiter
 
     def new_game
-      players = new_players
+      @players = new_players
       banker = players.to_a[0]
-      @tokens_limiter = Models::LimitedNumberOfTokens.new(players, 200, 0)
+      @tokens_limiter = Models::LimitedNumberOfTokens.new(@players, 200, 0)
       @game = Models::PlayingGame.new(
         ChinChin::Game.new(@players),
         value: 3, player: banker
@@ -28,11 +28,18 @@ module GameBuilder
     end
 
     def new_players
+      return reset_players if @players
+
       banker  = ChinChin::Player.new("Alan Smithee")
       punter1 = ChinChin::Player.new("John Doe")
       punter2 = ChinChin::Player.new("Richard Roe")
       punter3 = ChinChin::Player.new("Mario Rossi")
       ChinChin::Players.new(banker, punter1, punter2, punter3)
+    end
+
+    def reset_players
+      ChinChin::Players.new(
+        @players.to_a.map { |player| ChinChin::Player.new(player.name) })
     end
 
     def game
@@ -48,6 +55,11 @@ module GameBuilder
   # syntax suger for `self.class.new_game`
   def new_game
     self.class.new_game
+  end
+
+  # syntax suger for `self.class.players`
+  def players
+    self.class.players
   end
 
   # syntax suger for `self.class.result`

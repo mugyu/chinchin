@@ -54,8 +54,7 @@ class App < Sinatra::Base
   end
 
   post "/players" do
-    # TODO: 登録処理を作る
-    puts params[:name]
+    players.add_player(ChinChin::Player.new(params[:name]))
     redirect "/", 303
   end
 end
