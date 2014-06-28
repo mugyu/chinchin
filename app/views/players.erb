@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row herder">
+    <div class="col-md-3">
+      <div class="label label-info pull-left">Name</div>
+      <div class="label label-info pull-right">tokens</div>
+    </div>
+  </div>
+
+  <% players.to_a.sort_by{ |player| player.tokens }.reverse.each do |player| %>
+    <div class="row">
+      <div class="col-md-3">
+        <span class="pull-left"><%= player.name %></span>
+        <% if players.banker == player %>
+          &nbsp;<span class="badge alert-danger">Banker</span>
+        <% end %>
+        <span class="badge pull-right"><%= player.tokens %></span>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr />
+      <a href="<%= url("/") %>" class="btn btn-default">Home</a>
+    </div>
+  </div>
+</div>

@@ -53,6 +53,10 @@ class App < Sinatra::Base
     erb :join
   end
 
+  get "/players" do
+    erb :players, players: players
+  end
+
   post "/players" do
     players.add_player(ChinChin::Player.new(params[:name]))
     redirect "/", 303
