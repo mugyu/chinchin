@@ -37,12 +37,12 @@ class App < Sinatra::Base
 
   get "/play" do
     if game.counter_limit_reached?
-      erb :finish, locals: { players: game.players }
+      erb :finish
     else
       self.result = game.play
       if tokens_is_upper_limit_reahed? ||
          tokens_is_lower_limit_reahed?
-        erb :finish, locals: { players: game.players }
+        erb :finish
       else
         erb :play, locals: { game_results: result }
       end

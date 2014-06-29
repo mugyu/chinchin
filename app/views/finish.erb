@@ -1,11 +1,19 @@
 <link rel="stylesheet" href="css/play.css">
-<div id="game-finished-message">Game is finished</div>
-<div>
-  <a href="<%= url("/") %>" id="reset-game" class="btn btn-danger btn-lg" role="button">RESET GAME</a>
+<div class="row">
+  <div class="col-md-12">
+    <div id="game-finished-message">Game is finished</div>
+  </div>
 </div>
-<h2>Game Result</h2>
-<div id="game-result-panel">
-  <% players.sort_by { |player| player.tokens }.reverse.each do |player| %>
-  <%= erb :game_result, locals: { name: player.name, tokens: player.tokens } %>
-<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="<%= url("/") %>" id="reset-game" class="btn btn-danger btn-lg" role="button">RESET GAME</a>
+  </div>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Game Result</h2>
+  </div>
+</div>
+<%= erb :players, players: players %>
