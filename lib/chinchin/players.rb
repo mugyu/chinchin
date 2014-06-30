@@ -11,6 +11,11 @@ module ChinChin
     # プレイヤ以外のオブジェクト
     class NotPlayerError < TypeError; end
 
+    # 例外クラス:
+    # 既に参加しているプレイヤと同じ名前のプレイヤを参加させようとした場合に
+    # 発生する
+    class DuplicatePlayerNameError < TypeError; end
+
     # 親プレイヤ(Banker)
     # @overload banker
     #   親(Banker)
@@ -67,6 +72,7 @@ module ChinChin
     #
     # @param player プレイヤ
     def add_player(player)
+      validate_duplicate_name(player.name)
       @players << player
       @punters << player
     end
@@ -109,6 +115,20 @@ module ChinChin
              "This is not player object. cast method is necessary."
       end
       player
+    end
+
+    # プレイヤの検証
+    #
+    # - 参加者に同名のプレイヤがいない事
+    #
+    # @param name 名前
+    # @raise [DuplicatePlayerNameError]
+    #   パラメータの name の名前のプレイヤが既にゲームに参加している場合は
+    #   例外が発生する
+    def validate_duplicate_name(name)
+      player_names = @players.map(&:name)
+      fail DuplicatePlayerNameError,
+           "This name of player is duplicate." if player_names.include? name
     end
 
     # 親プレイヤの検証
