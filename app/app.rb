@@ -11,6 +11,8 @@ require "game_builder"
 class App < Sinatra::Base
   set :public_folder, File.expand_path(File.join(root, "..", "public"))
 
+  enable :sessions
+
   configure :development do
     puts "Development mode."
     register Sinatra::Reloader
@@ -50,7 +52,9 @@ class App < Sinatra::Base
   end
 
   get "/join" do
-    erb :join
+    validation_error = session[:validation_error]
+    session[:validation_error] = nil
+    erb :join, locals: { validation_error: validation_error }
   end
 
   get "/players" do
@@ -58,7 +62,13 @@ class App < Sinatra::Base
   end
 
   post "/players" do
-    players.add_player(ChinChin::Player.new(params[:name]))
-    redirect "/", 303
+    begin
+      players.add_player(ChinChin::Player.new(params[:name]))
+      redirect "/", 303
+    rescue ChinChin::Players::DuplicatePlayerNameError
+      session[:validation_error] = "Duplicate name."
+      redirect "/join", 303
+    end
+    session[:validation_error] = nil
   end
 end

@@ -6,3 +6,7 @@
   border-top: solid 1px #EEE;
   padding-top: 3em;
 }
+
+.validation_error {
+  margin-top: 1em;
+}
