@@ -5,6 +5,10 @@ require "chinchin/dice"
 module ChinChin
   # プレイヤを表すクラス
   class Player
+    # 例外クラス:
+    # 名無しプレイヤーを生成しようとする場合に発生する
+    class NoNamePlayerError < ArgumentError; end
+
     # 名前を返す
     attr_reader :name
 
@@ -17,6 +21,7 @@ module ChinChin
     #   defaultの直接的な値はnilですが、
     #   実質的にはChinChin::Resultが定義されます
     def initialize(name, result_klass = nil)
+      validate_name_is_required(name)
       @name = name
       @reslut_klass =
         if result_klass
@@ -49,6 +54,19 @@ module ChinChin
     # @param [Integer] decrement 減分
     def decrement_tokens(decrement)
       @tokens -= decrement
+    end
+
+    # 属性の検証
+    #
+    # - 無名でない事
+    #
+    # @param name 名前
+    # @raise [NoNamePlayerError]
+    #   パラメータの name が空または nil の場合は
+    #   例外が発生する
+    def validate_name_is_required(name)
+      fail NoNamePlayerError,
+           "Name is required." if name.nil? || name.empty?
     end
   end
 end
