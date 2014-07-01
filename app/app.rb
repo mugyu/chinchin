@@ -65,6 +65,9 @@ class App < Sinatra::Base
     begin
       players.add_player(ChinChin::Player.new(params[:name]))
       redirect "/", 303
+    rescue ChinChin::Player::NoNamePlayerError
+      session[:validation_error] = "Name is required."
+      redirect "/join", 303
     rescue ChinChin::Players::DuplicatePlayerNameError
       session[:validation_error] = "Duplicate name."
       redirect "/join", 303
