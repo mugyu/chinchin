@@ -5,7 +5,7 @@ module ChinChin
   class Players
     # 例外クラス:
     # 親を決定する際、親がプレイヤーズに参加していない場合に発生する
-    class NotJoinedPlayersError < TypeError; end
+    class NotJoinedPlayersError < ArgumentError; end
 
     # 例外クラス:
     # プレイヤ以外のオブジェクト
@@ -14,7 +14,7 @@ module ChinChin
     # 例外クラス:
     # 既に参加しているプレイヤと同じ名前のプレイヤを参加させようとした場合に
     # 発生する
-    class DuplicatePlayerNameError < TypeError; end
+    class DuplicatePlayerNameError < ArgumentError; end
 
     # 親プレイヤ(Banker)
     # @overload banker
