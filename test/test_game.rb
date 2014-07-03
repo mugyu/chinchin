@@ -37,6 +37,8 @@ class TestGame < Test::Unit::TestCase
       end
     end
 
+    attr_accessor :name
+
     def initialize(seed)
       @seed = seed
       @cast_number = 0

@@ -15,7 +15,7 @@ require "models/playing_game"
 class TestPlayingGame < Test::Unit::TestCase
   # プレイヤ用スタブ
   class StabPlayer
-    attr_accessor :tokens
+    attr_accessor :tokens, :name
 
     def initialize(tokens = 100)
       @tokens = tokens

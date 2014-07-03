@@ -38,9 +38,9 @@ module ChinChin
     attr_reader :punters
 
     # @overload initialize(players)
-    #   @param [Array<#cast>] players ゲーム参加者を配列で設定する
+    #   @param [Array<#cast & #naem>] players ゲーム参加者を配列で設定する
     # @overload initialize(*players)
-    #   @param [#cast] *players 可変長引数に個々のプレイヤを設定する
+    #   @param [#cast & #name] *players 可変長引数に個々のプレイヤを設定する
     # @raise [NotPlayerError] プレイヤ以外を参加者に登録すると例外が発生する
     def initialize(*players)
       @players = validate_players(players.flatten)
@@ -95,8 +95,8 @@ module ChinChin
     #
     # - 全ての要素がプレイヤである事
     #
-    # @param players [Array<#cast>] プレイヤの集合
-    # @return [Array<#cast>] プレイヤの集合
+    # @param players [Array<#cast & #name>] プレイヤの集合
+    # @return [Array<#cast & #name>] プレイヤの集合
     # @raise [NotPlayerError]
     def validate_players(players)
       players.each { |player| validate_player(player) }
@@ -104,16 +104,22 @@ module ChinChin
 
     # プレイヤの検証
     #
-    # - castメソッドを持っている
+    # - cast と name メソッドを持っている
     #
-    # @param player [#cast] プレイヤ
-    # @return [#cast] プレイヤ
+    # @param player [#cast & #name] プレイヤ
+    # @return [#cast & #name] プレイヤ
     # @raise [NotPlayerError]
     def validate_player(player)
       unless player.respond_to? :cast
         fail NotPlayerError,
              "This is not player object. cast method is necessary."
       end
+
+      unless player.respond_to? :name
+        fail NotPlayerError,
+             "This is not player object. name method is necessary."
+      end
+
       player
     end
 

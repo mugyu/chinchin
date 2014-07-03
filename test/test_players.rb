@@ -20,8 +20,15 @@ class TestPlayers < Test::Unit::TestCase
     end
   end
 
-  # プレイヤ以外用スタブ
-  class StabNotPlayer; end
+  # プレイヤ以外用スタブ - cast 無し
+  class StabHasNotCast
+    attr_reader :name
+  end
+
+  # プレイヤ以外用スタブ - name 無し
+  class StabHasNotName
+    attr_reader :cast
+  end
 
   def setup
     @player1 = StabPlayer.new("player1")
@@ -40,8 +47,8 @@ class TestPlayers < Test::Unit::TestCase
   end
 
   # castメソッドを持たないモノを参加者させようとした場合、例外が発生
-  def test_not_player_object_error
-    not_player = StabNotPlayer.new
+  def test_not_player_object_error_has_not_cast
+    not_player = StabHasNotCast.new
 
     # exception class
     assert_raise ChinChin::Players::NotPlayerError do
@@ -50,6 +57,21 @@ class TestPlayers < Test::Unit::TestCase
 
     # exception message
     assert_raise "This is not player object. cast method is necessary." do
+      ChinChin::Players.new(@player1, @player2, not_player)
+    end
+  end
+
+  # nameメソッドを持たないモノを参加者させようとした場合、例外が発生
+  def test_not_player_object_error_has_not_name
+    not_player = StabHasNotName.new
+
+    # exception class
+    assert_raise ChinChin::Players::NotPlayerError do
+      ChinChin::Players.new(@player1, @player2, not_player)
+    end
+
+    # exception message
+    assert_raise "This is not player object. name method is necessary." do
       ChinChin::Players.new(@player1, @player2, not_player)
     end
   end
