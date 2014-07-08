@@ -13,11 +13,11 @@ module GameBuilder
   # extend class methods
   module ClassMethods
     attr_accessor :result
-    attr_reader :players, :tokens_limiter
+    attr_reader :tokens_limiter
 
     def new_game
       @players = new_players
-      banker = players.to_a[0]
+      banker = @players.to_a[0]
       @tokens_limiter = Models::LimitedNumberOfTokens.new(@players, 200, 0)
       @game = Models::PlayingGame.new(
         ChinChin::Game.new(@players),
@@ -25,6 +25,10 @@ module GameBuilder
       )
       @game.banker = banker
       @game
+    end
+
+    def players
+      @players ||= new_players
     end
 
     def new_players
