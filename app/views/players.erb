@@ -5,7 +5,7 @@
   </div>
 </div>
 
-<% players.to_a.sort_by{ |player| player.tokens }.reverse.each do |player| %>
+<% sorted_players(players.to_a, players.banker).each do |player| %>
   <div class="row">
     <div class="col-md-3">
       <span class="pull-left"><%= player.name %></span>

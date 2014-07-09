@@ -85,4 +85,26 @@ module GameBuilder
   def tokens_is_lower_limit_reahed?
     self.class.tokens_limiter.lower_limit_reahed?
   end
+
+  # 参加者一覧表示用にソート
+  #
+  # @param [array]            players 参加者一覧
+  # @param [ChinChin::Player] banker  親プレイヤ
+  # @return ソートした参加者一覧
+  def sorted_players(players, banker)
+    players.sort do |a, b|
+      if a.tokens == b.tokens
+        case
+        when a == banker
+          -1
+        when b == banker
+          1
+        else
+          0
+        end
+      else
+        b.tokens <=> a.tokens
+      end
+    end
+  end
 end
