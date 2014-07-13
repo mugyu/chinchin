@@ -21,9 +21,10 @@ module GameBuilder
       @tokens_limiter = Models::LimitedNumberOfTokens.new(@players, 200, 0)
       @game = Models::PlayingGame.new(
         ChinChin::Game.new(@players),
+        @players,
         value: 3, player: banker
       )
-      @game.banker = banker
+      @players.banker = banker
       @game
     end
 

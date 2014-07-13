@@ -30,9 +30,9 @@ class TestPlayingGame < Test::Unit::TestCase
     @player1 = StabPlayer.new
     @player2 = StabPlayer.new
     @player3 = StabPlayer.new
-    players = ChinChin::Players.new(@player1, @player2, @player3)
-    game = ChinChin::Game.new(players)
-    @game = Models::PlayingGame.new(game, 3)
+    @players = ChinChin::Players.new(@player1, @player2, @player3)
+    game = ChinChin::Game.new(@players)
+    @game = Models::PlayingGame.new(game, @players, 3)
   end
 
   def test_play
@@ -46,10 +46,10 @@ class TestPlayingGame < Test::Unit::TestCase
   end
 
   def test_rotate_banker
-    @game.banker = @player1
+    @players.banker = @player1
     @game.rotate_banker
-    assert_equal @player2, @game.banker
-    assert_equal [@player3, @player1], @game.punters
+    assert_equal @player2, @players.banker
+    assert_equal [@player3, @player1], @players.punters
   end
 
   def test_counter_limit_reached?

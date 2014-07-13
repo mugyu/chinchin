@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-require "forwardable"
 require "chinchin/constants"
 require "chinchin/game"
 require "chinchin/result"
@@ -7,24 +6,14 @@ require "chinchin/result"
 module Models
   # アプリケーション用 拡張Gameクラス
   class PlayingGame
-    extend Forwardable
     include ChinChin::Constants
-
-    # @!method players
-    #   @see ChinChin::Game#players
-    # @!method punters
-    #   @see ChinChin::Game#punters
-    # @!method banker
-    #   @see ChinChin::Game#banker
-    # @!method banker=(player)
-    #   @see ChinChin::Game#banker=
-    def_delegators :@game, :players, :punters, :banker, :banker=
 
     # 賭けるポイント
     DEFAULT_POINT = 5.freeze
 
-    def initialize(game, playing_max_limit)
+    def initialize(game, players, playing_max_limit)
       @game = game
+      @players = players
       if playing_max_limit.is_a? Hash
         @playing_max_limit = playing_max_limit[:value]
         @starting_player = playing_max_limit[:player]
@@ -89,8 +78,8 @@ module Models
     #
     # 親をローテーションする
     def rotate_banker
-      self.banker = punters[0]
-      countup if @starting_player == banker
+      @players.banker = @players.punters[0]
+      countup if @starting_player == @players.banker
     end
 
     # ゲームの継続回数をカウントアップ
