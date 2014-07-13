@@ -15,8 +15,6 @@ module ChinChin
     # @see ChinChin::Players#initialize
     def initialize(players)
       @players = players
-      @punters = []
-      @banker = nil
       @cast_times = 3
     end
 
