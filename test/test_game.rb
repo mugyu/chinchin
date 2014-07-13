@@ -57,46 +57,6 @@ class TestGame < Test::Unit::TestCase
     @player3 = StabPlayer.new("player3")
   end
 
-  # 参加者が登録したとおりである
-  def test_players
-    game = ChinChin::Game.new(ChinChin::Players.new(@player1, @player2))
-    assert_equal [@player1, @player2], game.players
-    assert_not_equal [@player1, @player3], game.players
-
-    game = ChinChin::Game.new(
-      ChinChin::Players.new(@player1, @player2, @player3))
-    assert_equal [@player1, @player2, @player3], game.players
-  end
-
-  # 親(Banker)の設定と参照
-  def test_set_banker
-    players = ChinChin::Players.new(@player1, @player2, @player3)
-
-    game = ChinChin::Game.new(players)
-    game.banker = @player2
-    assert_same @player2, game.banker
-  end
-
-  # プレイヤを参加者一覧に追加する
-  def test_add_player
-    players = ChinChin::Players.new(@player1)
-
-    game = ChinChin::Game.new(players)
-    game.add_player(@player2)
-    game.add_player(@player3)
-    assert_equal [@player1, @player2, @player3], game.players
-  end
-
-  # プレイヤを参加者一覧から除外する
-  def test_remove_player
-    players = ChinChin::Players.new(@player1, @player2, @player3)
-
-    game = ChinChin::Game.new(players)
-    game.remove_player(@player1)
-    game.remove_player(@player3)
-    assert_equal [@player2], game.players
-  end
-
   # 役作りの結果を検証(賽を投じた結果では無い)
   def test_make
     # 目なしの場合
@@ -179,7 +139,7 @@ class TestGame < Test::Unit::TestCase
     players = ChinChin::Players.new(banker, punter1, punter2, punter3)
 
     game = ChinChin::Game.new(players)
-    game.banker = banker
+    players.banker = banker
     results = game.play
 
     assert_equal nil,     results[:banker].yaku
@@ -217,7 +177,7 @@ class TestGame < Test::Unit::TestCase
     players = ChinChin::Players.new(banker, punter1, punter2)
 
     game = ChinChin::Game.new(players)
-    game.banker = banker
+    players.banker = banker
     results = game.play
 
     assert_equal :ARASHI, results[:banker].yaku
