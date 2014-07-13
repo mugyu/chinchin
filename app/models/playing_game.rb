@@ -58,10 +58,10 @@ module Models
 
         case punter_result.outcome
         when Outcome::WIN
-          banker.decrement_tokens point
+          @players.banker.decrement_tokens point
           punter_result.player.increment_tokens point
         when Outcome::LOST
-          banker.increment_tokens point
+          @players.banker.increment_tokens point
           punter_result.player.decrement_tokens point
         else
           next
