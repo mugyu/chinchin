@@ -1,0 +1,18 @@
+<div class="row herder">
+  <div class="col-md-3">
+    <div class="label label-info pull-left">Name</div>
+    <div class="label label-info pull-right">tokens</div>
+  </div>
+</div>
+
+<% sorted_players(players.to_a, players.banker).each do |player| %>
+  <div class="row">
+    <div class="col-md-3">
+      <span class="pull-left"><%= player.name %></span>
+      <% if players.banker == player %>
+        &nbsp;<span class="badge alert-danger">Banker</span>
+      <% end %>
+      <span class="badge pull-right"><%= player.tokens %></span>
+    </div>
+  </div>
+<% end %>
