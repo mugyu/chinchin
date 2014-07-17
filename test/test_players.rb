@@ -116,6 +116,26 @@ class TestPlayers < Test::Unit::TestCase
     end
   end
 
+  def test_add_player
+    players = ChinChin::Players.new(@player1)
+
+    players.add_player(@player2)
+    assert_equal [@player1, @player2], players.to_a
+
+    players.add_player(@player3)
+    assert_equal [@player1, @player2, @player3], players.to_a
+  end
+
+  def test_remove_player
+    players = ChinChin::Players.new(@player1, @player2, @player3)
+
+    players.remove_player(@player3)
+    assert_equal [@player1, @player2], players.to_a
+
+    players.remove_player(@player1)
+    assert_equal [@player2], players.to_a
+  end
+
   def test_duplicate_player_name_error
     duplicate1 = StabPlayer.new("duplicate")
     duplicate2 = StabPlayer.new("duplicate")
