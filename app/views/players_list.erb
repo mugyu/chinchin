@@ -14,5 +14,12 @@
       <% end %>
       <span class="badge pull-right"><%= player.tokens %></span>
     </div>
+    <% if defined?(removable) && removable %>
+      <div class="col-md-1">
+        <div class="pull-right">
+          <span class="glyphicon glyphicon-trash"></span>
+        </div>
+      </div>
+    <% end %>
   </div>
 <% end %>
