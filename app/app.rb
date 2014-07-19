@@ -7,6 +7,8 @@ require "sinatra/reloader"
 require "views/play_result"
 require "game_builder"
 
+require "base64"
+
 # チンチロリン アプリケーション
 class App < Sinatra::Base
   set :public_folder, File.expand_path(File.join(root, "..", "public"))
@@ -73,5 +75,12 @@ class App < Sinatra::Base
       redirect "/join", 303
     end
     session[:validation_error] = nil
+  end
+
+  get "/remove/player/:id" do
+    name = Base64.urlsafe_decode64(params[:id])
+    removable_player = players.to_a.find { |player| player.name == name }
+    players.remove_player removable_player if removable_player
+    redirect "/players", 303
   end
 end
