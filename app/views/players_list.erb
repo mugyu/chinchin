@@ -17,9 +17,12 @@
     <% if defined?(removable) && removable %>
       <div class="col-md-1">
         <div class="pull-right">
-          <a href="/remove/player/<%= Base64.urlsafe_encode64(player.name) %>">
-            <span class="glyphicon glyphicon-trash"></span>
-          </a>
+          <form action="remove/player/<%= Base64.urlsafe_encode64(player.name) %>"
+                method="get">
+            <button type="submit" class="btn btn-default btn-xs">
+              <span class="glyphicon glyphicon-trash" />
+            </button>
+          </form>
         </div>
       </div>
     <% end %>
