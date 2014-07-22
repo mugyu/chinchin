@@ -19,7 +19,11 @@
         <div class="pull-right">
           <form action="remove/player/<%= Base64.urlsafe_encode64(player.name) %>"
                 method="get">
-            <button type="submit" class="btn btn-default btn-xs">
+            <button
+              type="button"
+              class="btn btn-default btn-xs oepn-confirm-dialog"
+              data-toggle="modal"
+              data-playerid="<%= Base64.urlsafe_encode64(player.name) %>">
               <span class="glyphicon glyphicon-trash" />
             </button>
           </form>
@@ -28,3 +32,5 @@
     <% end %>
   </div>
 <% end %>
+
+<%= erb :confirm_dialog %>
