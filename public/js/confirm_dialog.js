@@ -1,6 +1,7 @@
-$(function() {
+define(["bootstrap"], function() {
 
   var DELETE_PLARER_URL = "/remove/player/";
+
   $(".oepn-confirm-dialog").on("click", function() {
     $("#confirm-dialog").modal("show");
     $("#confirm-ok-button")
