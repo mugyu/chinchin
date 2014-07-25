@@ -4,10 +4,10 @@
 app = File.expand_path("../app", File.dirname(__FILE__))
 $LOAD_PATH.unshift(app) unless $LOAD_PATH.include?(app)
 require "test/unit"
-require "models/limited_number_of_tokens"
+require "models/token_limiter"
 
-# test/unit `limited the numver of tokens`
-class TestLimitedNumberOfTokens < Test::Unit::TestCase
+# test/unit `limited the number of tokens`
+class TestTokenLimiter < Test::Unit::TestCase
   StabPlayer = Struct.new("StabPlayer", :tokens)
   StabPlayers = Struct.new("StabPlayers", :to_a)
 
@@ -17,7 +17,7 @@ class TestLimitedNumberOfTokens < Test::Unit::TestCase
       StabPlayer.new(100),
       StabPlayer.new(100)
     ])
-    @limiter = Models::LimitedNumberOfTokens.new(@players, 200, 0)
+    @limiter = Models::TokenLimiter.new(@players, 200, 0)
   end
 
   def test_upper_limit

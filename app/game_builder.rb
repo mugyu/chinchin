@@ -2,7 +2,7 @@
 require "chinchin/player"
 require "chinchin/players"
 require "models/playing_game"
-require "models/limited_number_of_tokens"
+require "models/token_limiter"
 
 # Game Object 生成
 module GameBuilder
@@ -13,12 +13,12 @@ module GameBuilder
   # extend class methods
   module ClassMethods
     attr_accessor :result
-    attr_reader :tokens_limiter
+    attr_reader :token_limiter
 
     def new_game
       @players = new_players
       banker = @players.to_a[0]
-      @tokens_limiter = Models::LimitedNumberOfTokens.new(@players, 200, 0)
+      @token_limiter = Models::TokenLimiter.new(@players, 200, 0)
       @game = Models::PlayingGame.new(
         ChinChin::Game.new(@players),
         @players,
@@ -79,12 +79,12 @@ module GameBuilder
 
   # syntax suger for `self.class.tokes_limiter.upper_limit_reahed?`
   def tokens_is_upper_limit_reahed?
-    self.class.tokens_limiter.upper_limit_reahed?
+    self.class.token_limiter.upper_limit_reahed?
   end
 
   # syntax suger for `self.class.tokes_limiter.lower_limit_reahed?`
   def tokens_is_lower_limit_reahed?
-    self.class.tokens_limiter.lower_limit_reahed?
+    self.class.token_limiter.lower_limit_reahed?
   end
 
   # 参加者一覧表示用にソート

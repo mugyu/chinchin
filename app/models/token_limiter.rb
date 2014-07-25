@@ -2,7 +2,7 @@
 
 module Models
   # トークン数の上限と下限を制御するクラス
-  class LimitedNumberOfTokens
+  class TokenLimiter
     attr_reader :upper_limit, :lower_limit
 
     def initialize(players, upper_limit, lower_limit)
