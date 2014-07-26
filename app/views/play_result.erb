@@ -1,28 +1,28 @@
 <link rel="stylesheet" href="css/play_result.css">
 <div class="play_result">
-  <div class="name <%= outcome %>">
-    <% if outcome == ChinChin::Game::WIN  ||
-          outcome == ChinChin::Game::LOST ||
-          outcome == ChinChin::Game::DRAW %>
-      <div class="outcome"><%= erb :outcome_icon, locals: {outcome: outcome} %></div>
+  <div class="name <%= result.outcome %>">
+    <% if result.outcome == ChinChin::Game::WIN  ||
+          result.outcome == ChinChin::Game::LOST ||
+          result.outcome == ChinChin::Game::DRAW %>
+      <div class="outcome"><%= erb :outcome_icon, locals: {outcome: result.outcome} %></div>
     <% else %>
     <% end %>
     <div class="label">Name:</div>
-    <div class="value"><%= name %></div>
+    <div class="value"><%= result.player.name %></div>
   </div>
   <div class="stats">
     <div class="point">
       <div class="label label-info">Point:</div>
-      <div class="value"><%= point %></div>
+      <div class="value"><%= result.yaku || result.point %></div>
     </div>
     <div class="tokens">
       <div class="label label-info">Tokens:</div>
-      <div class="value"><%= tokens %></div>
+      <div class="value"><%= result.player.tokens %></div>
     </div>
   </div>
   <div class="dice">
-    <% unless dice_set.nil? %>
-      <% dice_set.each do |dice| %>
+    <% unless result.dice.nil? %>
+      <% result.dice.each do |dice| %>
         <ul>
         <% dice.each do |pips| %>
           <%= erb :dice_image, locals: {pips: pips} %>

@@ -4,7 +4,6 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 require "sinatra/base"
 require "sinatra/reloader"
 
-require "views/play_result"
 require "game_builder"
 
 require "base64"
@@ -31,7 +30,6 @@ class App < Sinatra::Base
 
   TITLE = :ChinChin
 
-  helpers Views::PlayResult
   helpers GameBuilder
 
   get "/" do
