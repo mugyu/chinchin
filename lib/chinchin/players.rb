@@ -34,22 +34,32 @@ module ChinChin
     #     例外が発生する
     attr_reader :banker
 
-    # 子の組(Punters)
-    attr_reader :punters
-
     # @overload initialize(players)
     #   @param [Array<#cast & #naem>] players ゲーム参加者を配列で設定する
     # @overload initialize(*players)
     #   @param [#cast & #name] *players 可変長引数に個々のプレイヤを設定する
     # @raise [NotPlayerError] プレイヤ以外を参加者に登録すると例外が発生する
     def initialize(*players)
-      @players = validate_players(players.flatten)
-      @punters = []
+      @entry_number = 0
+      @players = validate_players(players.flatten).map do |player|
+        { entry_number: @entry_number += 1, player: player }
+      end
     end
 
     # 参加者の配列表現
-    def to_a
-      @players
+    def entries
+      @players.sort_by { |entry| entry[:entry_number] }
+              .map { |entry| entry[:player] }
+    end
+
+    # 参加者の配列表現
+    # @see entries
+    alias_method :to_a, :entries
+
+    # 子の組(Punters)
+    def punters
+      @players.reject { |entry| entry[:player] == @banker }
+              .map { |entry| entry[:player] }
     end
 
     # 親を決定する
@@ -57,11 +67,10 @@ module ChinChin
     # @see #banker
     def banker=(player)
       validate_banker(player)
-      if @banker
-        @punters -= [player]
-        @punters << @banker
-      else
-        @punters = @players - [player]
+      index = @players.find_index { |entry| entry[:player] == @banker }
+      if index
+        @players << @players[index]
+        @players.delete_at(index)
       end
       @banker = player
     end
@@ -73,8 +82,7 @@ module ChinChin
     # @param player プレイヤ
     def add_player(player)
       validate_duplicate_name(player.name)
-      @players << player
-      @punters << player
+      @players << { entry_number: @entry_number += 1, player: player }
     end
 
     # プレイヤを参加者から除外する
@@ -84,12 +92,9 @@ module ChinChin
     #
     # @param player プレイヤ
     def remove_player(player)
-      @players -= [player]
-      @punters -= [player]
+      @players.reject! { |entry| entry[:player] == player }
       @banker = nil if @banker == player
     end
-
-    private
 
     # プレイヤの集合の検証
     #
@@ -132,7 +137,7 @@ module ChinChin
     #   パラメータの name の名前のプレイヤが既にゲームに参加している場合は
     #   例外が発生する
     def validate_duplicate_name(name)
-      player_names = @players.map(&:name)
+      player_names = entries.map(&:name)
       fail DuplicatePlayerNameError,
            "This name of player is duplicate." if player_names.include? name
     end
@@ -148,7 +153,7 @@ module ChinChin
     #   例外が発生する
     def validate_banker(player)
       fail NotJoinedPlayersError,
-           "banker has not joined game." unless @players.include? player
+           "banker has not joined game." unless entries.include? player
     end
   end
 end

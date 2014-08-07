@@ -39,11 +39,17 @@ class TestPlayers < Test::Unit::TestCase
   # 参加者が登録したとおりである
   def test_players
     players = ChinChin::Players.new(@player1, @player2)
-    assert_equal [@player1, @player2], players.to_a
-    assert_not_equal [@player1, @player3], players.to_a
+    assert_equal [@player1, @player2], players.entries
+    assert_not_equal [@player1, @player3], players.entries
 
     players = ChinChin::Players.new([@player1, @player2, @player3])
-    assert_equal [@player1, @player2, @player3], players.to_a
+    assert_equal [@player1, @player2, @player3], players.entries
+  end
+
+  # to_a は entries の別名であること
+  def test_entries_as_to_a
+    players = ChinChin::Players.new([@player1, @player2, @player3])
+    assert_equal players.entries, players.to_a
   end
 
   # castメソッドを持たないモノを参加者させようとした場合、例外が発生
