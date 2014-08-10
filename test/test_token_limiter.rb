@@ -20,6 +20,12 @@ class TestTokenLimiter < Test::Unit::TestCase
     @limiter = Models::TokenLimiter.new(@players, 200, 0)
   end
 
+  def test_valid_player
+    assert_raise Models::TokenLimiter::NotHaveTokensPlayerError do
+      Models::TokenLimiter.new(StabPlayers.new([""]), 200, 0)
+    end
+  end
+
   def test_upper_limit
     assert_equal 200, @limiter.upper_limit
   end
