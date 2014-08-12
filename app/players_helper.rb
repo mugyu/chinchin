@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require "chinchin/player"
+require "models/player"
 require "chinchin/players"
 
 # Player And Players Object 生成
@@ -19,16 +19,16 @@ module PlayersHelper
     def new_players
       return reset_players if @players
 
-      banker  = ChinChin::Player.new("Alan Smithee")
-      punter1 = ChinChin::Player.new("John Doe")
-      punter2 = ChinChin::Player.new("Richard Roe")
-      punter3 = ChinChin::Player.new("Mario Rossi")
+      banker  = Models::Player.new("Alan Smithee")
+      punter1 = Models::Player.new("John Doe")
+      punter2 = Models::Player.new("Richard Roe")
+      punter3 = Models::Player.new("Mario Rossi")
       ChinChin::Players.new(banker, punter1, punter2, punter3)
     end
 
     def reset_players
       ChinChin::Players.new(
-        @players.to_a.map { |player| ChinChin::Player.new(player.name) })
+        @players.to_a.map { |player| Models::Player.new(player.name) })
     end
   end
 

@@ -42,23 +42,4 @@ class TestPlayer < Test::Unit::TestCase
     player = ChinChin::Player.new("test default result class")
     assert_kind_of ChinChin::Result, player.cast
   end
-
-  def test_tokens
-    assert_kind_of Integer, @player.tokens
-    assert_equal 100, @player.tokens
-  end
-
-  # トークンを増やす
-  def test_increment_token
-    assert_equal 100, @player.tokens
-    @player.increment_tokens 40
-    assert_equal 140, @player.tokens
-  end
-
-  # トークンを減らす
-  def test_decrement_token
-    assert_equal 100, @player.tokens
-    @player.decrement_tokens 40
-    assert_equal 60, @player.tokens
-  end
 end
