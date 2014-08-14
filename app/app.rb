@@ -43,6 +43,14 @@ class App < Sinatra::Base
     erb :index
   end
 
+  get "/login" do
+    erb :login
+  end
+
+  post "/login" do
+    redirect "/", 303
+  end
+
   get "/play" do
     if game.counter_limit_reached?
       erb :finish
