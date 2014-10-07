@@ -35,7 +35,7 @@ module ChinChin
     # ChinChin::Game は #cast を持つものをプレイヤクラスとみなす
     # @return 結果クラスのインスタンス
     def cast
-      @reslut_klass.new(@dice_set.map { |dice| dice.cast })
+      @reslut_klass.new(@dice_set.map(&:cast))
     end
 
     # 属性の検証
