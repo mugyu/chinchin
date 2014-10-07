@@ -8,6 +8,7 @@ require "players_helper"
 require "token_limiter_helper"
 require "game_builder"
 require "game_result_helper"
+require "models/player"
 
 require "base64"
 
@@ -77,7 +78,7 @@ class App < Sinatra::Base
 
   post "/players" do
     begin
-      players.add_player(ChinChin::Player.new(params[:name]))
+      players.add_player(Models::Player.new(params[:name]))
       redirect "/players", 303
     rescue ChinChin::Player::NoNamePlayerError
       session[:validation_error] = "Name is required."
