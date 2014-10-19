@@ -5,6 +5,10 @@ source "https://rubygems.org"
 gem "sinatra"
 gem "sinatra-contrib"
 
+group :test do
+  gem "test-unit"
+end
+
 group :development do
   gem "rubocop"
 end
