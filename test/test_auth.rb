@@ -16,10 +16,14 @@ class TestAuth < Test::Unit::TestCase
     @auth = Models::Auth.new(authentications)
   end
 
-  def test_authenticate
-    assert_equal(true, @auth.authenticate("user", "password"))
-    assert_equal(true, @auth.authenticate("hoge", "piyopiyo"))
-    assert_equal(false, @auth.authenticate("user", "pazzword"))
-    assert_equal(false, @auth.authenticate("usr", "password"))
+  data(
+    Secure1:     [true,  "user", "password"],
+    Secure2:     [true,  "hoge", "piyopiyo"],
+    BadPassword: [false, "user", "pazzword"],
+    BadUser:     [false, "usr",  "password"]
+  )
+  def test_authenticate(data)
+    expectation, user, password = data
+    assert_equal(expectation, @auth.authenticate(user, password))
   end
 end
